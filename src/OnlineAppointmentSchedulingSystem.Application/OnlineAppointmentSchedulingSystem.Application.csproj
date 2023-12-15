@@ -6,4 +6,15 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\OnlineAppointmentSchedulingSystem.Core\OnlineAppointmentSchedulingSystem.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Common\" />
+	<Folder Include="Features\" />
+	<Folder Include="Hubs\" />
+	<Folder Include="Scheduler\" />
+  </ItemGroup>
+
 </Project>
