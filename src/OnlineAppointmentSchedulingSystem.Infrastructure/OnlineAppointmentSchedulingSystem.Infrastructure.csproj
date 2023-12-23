@@ -11,9 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\" />
     <Folder Include="Data\Config\" />
-    <Folder Include="Identity\" />
 	<Folder Include="Interceptors\" />
 	<Folder Include="Services\" />
 	<Folder Include="Presistence\" />

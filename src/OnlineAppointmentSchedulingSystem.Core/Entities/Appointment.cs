@@ -10,9 +10,7 @@ namespace OnlineAppointmentSchedulingSystem.Core.Entities
 
 		public User User { get; set; }
 
-		public int? RateId { get; set; }
-
-		//Rate id link
+		public virtual ICollection<Rate> Rates { get; set; }
 	
 		public string? Result { get; set; }
 	}
