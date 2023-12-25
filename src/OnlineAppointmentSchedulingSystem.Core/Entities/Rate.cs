@@ -12,6 +12,12 @@ namespace OnlineAppointmentSchedulingSystem.Core.Entities
 
 		public User Doctor { get; set; }
 
+		public byte RatingValue { get; set; }
 
+		public string Comment { get; set; }
+
+		public virtual Appointment Appointment { get; set; }
+
+		public int AppointmentId { get; set; }
 	}
 }
