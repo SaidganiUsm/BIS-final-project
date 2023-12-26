@@ -6,7 +6,7 @@ namespace OnlineAppointmentSchedulingSystem.Core.Entities
 	{
 		public string? FirstName { get; set; }
 
-		public string? LastName { get; set;}
+		public string? LastName { get; set; }
 
 		public virtual ICollection<Appointment> DoctorAppointments { get; set; }
 

@@ -14,8 +14,6 @@ namespace OnlineAppointmentSchedulingSystem.Core.Entities
 
 		public User Doctor { get; set; }
 
-		public virtual Rate? Rate { get; set; }
-
 		public int AppointmentStatusId { get; set; }
 
 		public virtual AppointmentStatus AppointmentStatus { get; set; }
@@ -23,6 +21,8 @@ namespace OnlineAppointmentSchedulingSystem.Core.Entities
 		public int LocationId { get; set; }
 
 		public int? RateId { get; set; }
+
+		public virtual Rate? Rate { get; set; }
 
 		public string? Result { get; set; }
 	}
