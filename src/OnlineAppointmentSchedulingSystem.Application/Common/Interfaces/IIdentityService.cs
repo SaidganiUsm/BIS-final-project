@@ -1,4 +1,6 @@
-﻿namespace OnlineAppointmentSchedulingSystem.Application.Common.Interfaces
+﻿using OnlineAppointmentSchedulingSystem.Application.Common.Models.Account;
+
+namespace OnlineAppointmentSchedulingSystem.Application.Common.Interfaces
 {
 	public interface IIdentityService
 	{
@@ -15,7 +17,5 @@
 		Task<ChangePasswordResponse> ChangeUserPasswordAsync(string email, ChangePasswordViewModel model);
 
 		Task<LoginResponse> AssignRoleToUserAsync(string role);
-
-		Task<LoginResponse> LoginUserWithGoogleAsync(Payload payload);
 	}
 }
