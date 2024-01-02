@@ -15,7 +15,5 @@ namespace OnlineAppointmentSchedulingSystem.Application.Common.Interfaces
 		Task<LoginResponse> LoginUserAsync(LoginViewModel userModel);
 
 		Task<ChangePasswordResponse> ChangeUserPasswordAsync(string email, ChangePasswordViewModel model);
-
-		Task<LoginResponse> AssignRoleToUserAsync(string role);
 	}
 }
