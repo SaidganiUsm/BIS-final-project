@@ -22,8 +22,4 @@
     <ProjectReference Include="..\OnlineAppointmentSchedulingSystem.Infrastructure\OnlineAppointmentSchedulingSystem.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-	<Folder Include="Middlewares\" />
-  </ItemGroup>
-
 </Project>
