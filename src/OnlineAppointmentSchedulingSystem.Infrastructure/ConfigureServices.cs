@@ -26,6 +26,7 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure
 			services.Configure<AuthSettingsOptions>(
 				configuration.GetSection(AuthSettingsOptions.AuthSettings)
 			);
+			services.Configure<AppOptions>(configuration.GetSection(AppOptions.App));
 
 			services.AddScoped<AuditableEntitySaveChangesInterceptor>();
 
@@ -82,8 +83,10 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure
 							var accessToken = context.Request.Query["access_token"];
 
 							var path = context.HttpContext.Request.Path;
-							
-							context.Token = accessToken;
+							if (!string.IsNullOrEmpty(accessToken))
+							{
+								context.Token = accessToken;
+							}
 
 							return Task.CompletedTask;
 						}
