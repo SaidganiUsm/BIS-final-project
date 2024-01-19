@@ -1,8 +1,12 @@
 using OnlineAppointmentSchedulingSystem.API.Services;
 using OnlineAppointmentSchedulingSystem.Application.Common.Interfaces;
 using OnlineAppointmentSchedulingSystem.Infrastructure;
+using OnlineAppointmentSchedulingSystem.Infrastructure.Presistence;
+using sib_api_v3_sdk.Client;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Configuration.Default.ApiKey.Add("api-key", builder.Configuration["BrevoApi:ApiKey"]);
 
 // Add services to the container.
 
@@ -21,6 +25,12 @@ if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
 	app.UseSwaggerUI();
+
+	using var scope = app.Services.CreateScope();
+	var initialiser =
+		scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>();
+	await initialiser.InitialiseAsync();
+	await initialiser.SeedAsync();
 }
 
 app.UseHttpsRedirection();

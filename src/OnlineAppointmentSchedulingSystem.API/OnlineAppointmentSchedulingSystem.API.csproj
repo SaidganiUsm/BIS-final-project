@@ -7,6 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	<SpaProxyServerUrl>https://localhost:44452</SpaProxyServerUrl>
 	<SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
+	<UserSecretsId>13c2fbdc-daf6-4010-92b0-2dde1b2c8919</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +16,7 @@
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.14"></PackageReference>
+    <PackageReference Include="sib_api_v3_sdk" Version="4.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder.Extensions;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -20,30 +19,24 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Identity
 		private readonly SignInManager<User> _signInManager;
 		private readonly ILogger<IdentityService> _logger;
 		private readonly IEmailService _emailService;
-		private readonly RoleManager<Role> _roleManager;
 		private readonly AuthSettingsOptions _authSettingsOptions;
 		private readonly AppOptions _appOptions;
-		private readonly ICurrentUserService _currentUserService;
 
 		public IdentityService(
 			UserManager<User> userManager,
 			SignInManager<User> signInManager,
 			ILogger<IdentityService> logger,
 			IEmailService emailService,
-			RoleManager<Role> roleManager,
 			IOptions<AuthSettingsOptions> authSettingsOptions,
-			IOptions<AppOptions> appOptions,
-			ICurrentUserService currentUserService
+			IOptions<AppOptions> appOptions
 		)
 		{
 			_userManager = userManager;
 			_signInManager = signInManager;
 			_logger = logger;
 			_emailService = emailService;
-			_roleManager = roleManager;
 			_authSettingsOptions = authSettingsOptions.Value;
 			_appOptions = appOptions.Value;
-			_currentUserService = currentUserService;
 		}
 
 		public async Task<LoginResponse> LoginUserAsync(LoginViewModel userModel)
@@ -162,7 +155,7 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Identity
 				email,
 				"Reset Password",
 				"<h1>Follow the instructions to reset your password</h1>"
-					+ $"<p>To reset your password <a href='{url}'>Click here</a></p>"
+					+ $"<p>To reset your password '{url}'</p>"
 			);
 
 			return new ResetPasswordResponse
@@ -239,6 +232,8 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Identity
 				var encodedEmailToken = Encoding.UTF8.GetBytes(confirmEmailToken);
 				var validEmailToken = WebEncoders.Base64UrlEncode(encodedEmailToken);
 
+				await _userManager.AddToRoleAsync(user, "patient");
+
 				var url =
 					$"{_appOptions.Url}/api/auth/confirm-email?userid={user.Id}&token={validEmailToken}";
 
@@ -246,7 +241,8 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Identity
 					user.Email,
 					"Confirm your email",
 					$"<h1>Welcome to Auctionify</h1>"
-						+ $"<p>Please confirm your email by <a href='{url}'>clicking here</a></p>"
+						+ $"<p>Please confirm your email by</p>"
+						+ $"<p>https://localhost:7230{url}</p>"
 				);
 
 				return new RegisterResponse
