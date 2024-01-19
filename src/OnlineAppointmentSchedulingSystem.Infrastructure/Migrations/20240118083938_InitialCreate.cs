@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace OnlineAppointmentSchedulingSystem.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class IntialCommit : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,6 +24,21 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AppointmentsStatuses", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CategoryName = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Updated = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -49,6 +64,7 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CategoryId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -62,6 +78,11 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -94,7 +115,7 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ClientId = table.Column<int>(type: "int", nullable: false),
                     DoctorId = table.Column<int>(type: "int", nullable: false),
-                    AppointmentStatusId = table.Column<int>(type: "int", nullable: false),
+                    AppointmentStatusId = table.Column<int>(type: "int", nullable: true),
                     LocationId = table.Column<int>(type: "int", nullable: false),
                     RateId = table.Column<int>(type: "int", nullable: true),
                     Result = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
@@ -108,8 +129,7 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Migrations
                         name: "FK_Appointments_AppointmentsStatuses_AppointmentStatusId",
                         column: x => x.AppointmentStatusId,
                         principalTable: "AppointmentsStatuses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Appointments_Users_ClientId",
                         column: x => x.ClientId,
@@ -305,6 +325,11 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_CategoryId",
+                table: "Users",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "Users",
                 column: "NormalizedUserName",
@@ -344,6 +369,9 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
         }
     }
 }

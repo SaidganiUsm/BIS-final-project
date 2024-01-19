@@ -6,17 +6,17 @@ namespace OnlineAppointmentSchedulingSystem.Core.Entities
 	{
 		public DateTime Date { get; set; }
 
-		public int ClientId { get; set; }
+		public int? ClientId { get; set; }
 
-		public User Client { get; set; }
+		public User? Client { get; set; }
 
-		public int DoctorId { get; set; }
+		public int? DoctorId { get; set; }
 
-		public User Doctor { get; set; }
+		public User? Doctor { get; set; }
 
-		public int AppointmentStatusId { get; set; }
+		public int? AppointmentStatusId { get; set; }
 
-		public virtual AppointmentStatus AppointmentStatus { get; set; }
+		public virtual AppointmentStatus? AppointmentStatus { get; set; }
 
 		public int LocationId { get; set; }
 

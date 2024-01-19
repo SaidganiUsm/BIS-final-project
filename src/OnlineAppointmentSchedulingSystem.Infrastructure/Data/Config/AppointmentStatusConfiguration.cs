@@ -9,6 +9,11 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Data.Config
 	{
 		public void Configure(EntityTypeBuilder<AppointmentStatus> builder)
 		{
+			builder.HasMany(r => r.Appointments)
+				.WithOne(r => r.AppointmentStatus)
+				.IsRequired(false)
+				.OnDelete(DeleteBehavior.NoAction);
+
 			builder.Property(n => n.Name)
 				.HasMaxLength(50)
 				.IsRequired(true);

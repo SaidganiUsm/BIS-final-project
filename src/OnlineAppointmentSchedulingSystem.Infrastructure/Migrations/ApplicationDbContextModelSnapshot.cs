@@ -133,10 +133,11 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AppointmentStatusId")
+                    b.Property<int?>("AppointmentStatusId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ClientId")
+                    b.Property<int?>("ClientId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("Created")
@@ -145,7 +146,8 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DoctorId")
+                    b.Property<int?>("DoctorId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("LocationId")
@@ -204,9 +206,10 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryName")
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
                         .HasMaxLength(2048)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(2048)");
 
                     b.Property<DateTime?>("Created")
                         .HasColumnType("datetime2");
@@ -216,7 +219,7 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("OnlineAppointmentSchedulingSystem.Core.Entities.Rate", b =>
@@ -299,7 +302,7 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -411,8 +414,7 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Migrations
                     b.HasOne("OnlineAppointmentSchedulingSystem.Core.Entities.AppointmentStatus", "AppointmentStatus")
                         .WithMany("Appointments")
                         .HasForeignKey("AppointmentStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("OnlineAppointmentSchedulingSystem.Core.Entities.User", "Client")
                         .WithMany("ClientAppointments")
@@ -463,8 +465,7 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Migrations
                     b.HasOne("OnlineAppointmentSchedulingSystem.Core.Entities.Category", "Category")
                         .WithMany("Doctors")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Category");
                 });

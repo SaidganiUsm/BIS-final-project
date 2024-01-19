@@ -8,9 +8,9 @@ namespace OnlineAppointmentSchedulingSystem.Core.Entities
 
 		public string? LastName { get; set; }
 
-		public int CategoryId { get; set; }
+		public int? CategoryId { get; set; }
 
-		public Category Category { get; set; }
+		public virtual Category? Category { get; set; }
 
 		public virtual ICollection<Appointment> DoctorAppointments { get; set; }
 

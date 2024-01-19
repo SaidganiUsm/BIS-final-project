@@ -34,6 +34,8 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Presistence
 
 		public virtual DbSet<Role> Roles { get; set; }
 
+		public virtual DbSet<Category> Categories { get; set; }
+
 		public virtual DbSet<AppointmentStatus> AppointmentsStatuses { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder builder)

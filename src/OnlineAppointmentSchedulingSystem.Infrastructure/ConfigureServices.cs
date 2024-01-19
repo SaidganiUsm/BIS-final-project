@@ -4,10 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using OnlineAppointmentSchedulingSystem.Application.Common.Interfaces;
+using OnlineAppointmentSchedulingSystem.Application.Common.Interfaces.Repositories;
 using OnlineAppointmentSchedulingSystem.Core.Entities;
 using OnlineAppointmentSchedulingSystem.Infrastructure.Common.Options;
+using OnlineAppointmentSchedulingSystem.Infrastructure.Identity;
 using OnlineAppointmentSchedulingSystem.Infrastructure.Interceptors;
 using OnlineAppointmentSchedulingSystem.Infrastructure.Presistence;
+using OnlineAppointmentSchedulingSystem.Infrastructure.Repositories;
 using System.Text;
 
 namespace OnlineAppointmentSchedulingSystem.Infrastructure
@@ -78,18 +82,24 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure
 							var accessToken = context.Request.Query["access_token"];
 
 							var path = context.HttpContext.Request.Path;
-							if (
-								!string.IsNullOrEmpty(accessToken)
-								&& path.StartsWithSegments(configuration["SignalR:HubStartPath"])
-								)
-							{
-								context.Token = accessToken;
-							}
+							
+							context.Token = accessToken;
 
 							return Task.CompletedTask;
 						}
 					};
 				});
+
+			var usersSeedingData = configuration.GetSection("UsersSeedingData");
+			services.Configure<UsersSeedingData>(usersSeedingData);
+
+			services.AddScoped<ApplicationDbContextInitializer>();
+
+			services.AddScoped<IIdentityService, IdentityService>();
+			services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+			services.AddScoped<IAppointmentStatusRepository, AppointmentStatusRepository>();
+
+			services.AddTransient<IEmailService, EmailService>();
 
 			return services;
 		}
