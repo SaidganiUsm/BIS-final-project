@@ -1,6 +1,8 @@
 ﻿using Auctionify.Core.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore.Query;
 using OnlineAppointmentSchedulingSystem.Core.Common;
+using OnlineAppointmentSchedulingSystem.Core.Persistence.Dynamics;
+using OnlineAppointmentSchedulingSystem.Core.Persistence.Paging;
 using System.Linq.Expressions;
 
 namespace OnlineAppointmentSchedulingSystem.Core.Persistence.Repositories
@@ -28,6 +30,17 @@ namespace OnlineAppointmentSchedulingSystem.Core.Persistence.Repositories
 		/// <param name="enableTracking"></param>
 		/// <param name="cancellationToken"></param>
 		/// <returns></returns>
+		/// 
+		Task<IPaginate<TEntity>> GetListAsync(
+		Expression<Func<TEntity, bool>>? predicate = null,
+		Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+		Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
+		int index = 0,
+		int size = 10,
+		bool withDeleted = false,
+		bool enableTracking = true,
+		CancellationToken cancellationToken = default
+		);
 
 		Task<TEntity> AddAsync(TEntity entity);
 
@@ -40,5 +53,17 @@ namespace OnlineAppointmentSchedulingSystem.Core.Persistence.Repositories
 		Task<TEntity> DeleteAsync(TEntity entity, bool permanent = false);
 
 		Task<ICollection<TEntity>> DeleteRangeAsync(ICollection<TEntity> entities, bool permanent = false);
+
+		Task<IPaginate<TEntity>> GetListByDynamicAsync(
+		DynamicQuery dynamic,
+		IQueryable<TEntity>? existingQueryable = null,
+		Expression<Func<TEntity, bool>>? predicate = null,
+		Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
+		int index = 0,
+		int size = 10,
+		bool withDeleted = false,
+		bool enableTracking = true,
+		CancellationToken cancellationToken = default
+		);
 	}
 }

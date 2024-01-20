@@ -1,6 +1,6 @@
 ﻿namespace OnlineAppointmentSchedulingSystem.Core.Persistence.Paging
 {
-	public abstract class BasePagableModel
+	public abstract class BasePageableModel
 	{
 		public int Index { get; set; }
 

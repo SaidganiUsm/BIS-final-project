@@ -31,4 +31,5 @@ namespace OnlineAppointmentSchedulingSystem.Core.Persistence.Paging
 				};
 			return list;
 		}
+	}
 }

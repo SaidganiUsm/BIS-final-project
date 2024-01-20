@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using OnlineAppointmentSchedulingSystem.Core.Common;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
+using OnlineAppointmentSchedulingSystem.Core.Persistence.Dynamics;
+using OnlineAppointmentSchedulingSystem.Core.Persistence.Paging;
 
 namespace OnlineAppointmentSchedulingSystem.Core.Persistence.Repositories
 {
@@ -79,6 +81,56 @@ namespace OnlineAppointmentSchedulingSystem.Core.Persistence.Repositories
 			_context.UpdateRange(entities);
 			await _context.SaveChangesAsync();
 			return entities;
+		}
+
+		public async Task<IPaginate<TEntity>> GetListAsync(
+			Expression<Func<TEntity, bool>>? predicate = null,
+			Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+			Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
+			int index = 0,
+			int size = 10,
+			bool withDeleted = false,
+			bool enableTracking = true,
+			CancellationToken cancellationToken = default)
+		{
+			IQueryable<TEntity> queryable = Query();
+			if (!enableTracking)
+				queryable = queryable.AsNoTracking();
+			if (include != null)
+				queryable = include(queryable);
+			if (withDeleted)
+				queryable = queryable.IgnoreQueryFilters();
+			if (predicate != null)
+				queryable = queryable.Where(predicate);
+			if (orderBy != null)
+				return await orderBy(queryable).ToPaginateAsync(index, size, from: 0, cancellationToken: cancellationToken);
+			return await queryable.ToPaginateAsync(index, size, from: 0, cancellationToken: cancellationToken);
+		}
+
+		public async Task<IPaginate<TEntity>> GetListByDynamicAsync(
+		DynamicQuery dynamic,
+		IQueryable<TEntity>? existingQueryable = null,
+		Expression<Func<TEntity, bool>>? predicate = null,
+		Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
+		int index = 0,
+		int size = 10,
+		bool withDeleted = false,
+		bool enableTracking = true,
+		CancellationToken cancellationToken = default)
+		{
+			IQueryable<TEntity> queryable = existingQueryable ?? Query();
+
+			queryable = queryable.ToDynamic(dynamic);
+			if (!enableTracking)
+				queryable = queryable.AsNoTracking();
+			if (include != null)
+				queryable = include(queryable);
+			if (withDeleted)
+				queryable = queryable.IgnoreQueryFilters();
+			if (predicate != null)
+				queryable = queryable.Where(predicate);
+
+			return await queryable.ToPaginateAsync(index, size, from: 0, cancellationToken);
 		}
 	}
 }
