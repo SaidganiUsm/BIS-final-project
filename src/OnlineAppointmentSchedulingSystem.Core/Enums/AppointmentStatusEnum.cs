@@ -1,6 +1,6 @@
 ﻿namespace OnlineAppointmentSchedulingSystem.Core.Enums
 {
-	public enum AppointmentStatus
+	public enum AppointmentStatusEnum
 	{
 		PendingApproval,
 		Rejected,
