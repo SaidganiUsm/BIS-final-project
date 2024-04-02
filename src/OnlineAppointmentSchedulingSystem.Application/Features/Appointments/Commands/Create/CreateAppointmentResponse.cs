@@ -2,6 +2,8 @@
 {
 	public class CreateAppointmentResponse
 	{
+		public DateTime Date { get; set; }
 
+		public int DoctorId { get; set; }
 	}
 }
