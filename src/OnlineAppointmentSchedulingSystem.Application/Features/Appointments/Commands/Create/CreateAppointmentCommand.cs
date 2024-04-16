@@ -3,12 +3,13 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using OnlineAppointmentSchedulingSystem.Application.Common.Interfaces;
 using OnlineAppointmentSchedulingSystem.Application.Common.Interfaces.Repositories;
+using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.BaseValidators;
 using OnlineAppointmentSchedulingSystem.Core.Entities;
 using OnlineAppointmentSchedulingSystem.Core.Enums;
 
 namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Commands.Create
 {
-	public class CreateAppointmentCommand : IRequest<CreateAppointmentResponse>
+	public class CreateAppointmentCommand : IRequest<CreateAppointmentResponse>, IAppointmentCommandValidator
 	{
 		public DateTime Date { get; set; }
 
@@ -56,7 +57,7 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Co
 				ClientId = user.Id,
 				Date = request.Date,
 				DoctorId = request.DoctorId,
-				LocationId = 0,
+				LocationId = 1,
 			};
 
 			var createdAppointment = await _appointmentRepository.AddAsync( appointment );

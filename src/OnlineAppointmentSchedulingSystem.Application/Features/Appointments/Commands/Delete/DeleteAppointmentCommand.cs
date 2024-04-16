@@ -18,14 +18,17 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Co
 	{
 		private readonly IAppointmentRepository _appointmentRepository;
 		private readonly IAppointmentStatusRepository _statusRepository;
+		private readonly IMapper _mapper;
 
 		public DeleteAppointmentCommandHandler(
 			IAppointmentRepository appointmentRepository,
-			IAppointmentStatusRepository appointmentStatusRepository
+			IAppointmentStatusRepository appointmentStatusRepository,
+			IMapper mapper
 		)
 		{
 			_appointmentRepository = appointmentRepository;
 			_statusRepository = appointmentStatusRepository;
+			_mapper = mapper;
 		}
 
 		public async Task<DeleteAppointmentResponse> Handle(DeleteAppointmentCommand request, CancellationToken cancellationToken)
@@ -52,7 +55,15 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Co
 				await _appointmentRepository.UpdateAsync(appointment);
 			}
 
-			return new DeleteAppointmentResponse { Id = appointment.Id };
+			await _appointmentRepository.DeleteAsync(appointment);
+
+			bool wasDeleted = true;
+
+			var response = _mapper.Map<DeleteAppointmentResponse>(appointment);
+
+			response.WasDeleted = wasDeleted;
+
+			return response;
 		}
 	}
 }
