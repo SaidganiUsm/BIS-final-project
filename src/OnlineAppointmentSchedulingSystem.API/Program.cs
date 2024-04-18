@@ -3,6 +3,7 @@ using NLog;
 using NLog.Web;
 using OnlineAppointmentSchedulingSystem.API.Middlewares;
 using OnlineAppointmentSchedulingSystem.API.Services;
+using OnlineAppointmentSchedulingSystem.Application;
 using OnlineAppointmentSchedulingSystem.Application.Common.Interfaces;
 using OnlineAppointmentSchedulingSystem.Infrastructure;
 using OnlineAppointmentSchedulingSystem.Infrastructure.Presistence;
@@ -22,6 +23,7 @@ public class Program
 			logger.Debug("init main");
 			var builder = WebApplication.CreateBuilder(args);
 
+			builder.Services.AddApplicationServices(builder.Configuration);
 			builder.Services.AddInfrastructureServices(builder.Configuration);
 
 			Configuration.Default.ApiKey.Add("api-key", builder.Configuration["BrevoApi:ApiKey"]);

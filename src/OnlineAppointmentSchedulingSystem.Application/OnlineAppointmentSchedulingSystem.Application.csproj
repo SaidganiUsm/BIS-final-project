@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+	<Folder Include="Features\Appointments\BaseValidators\" />
 	<Folder Include="Hubs\" />
 	<Folder Include="Scheduler\" />
   </ItemGroup>
