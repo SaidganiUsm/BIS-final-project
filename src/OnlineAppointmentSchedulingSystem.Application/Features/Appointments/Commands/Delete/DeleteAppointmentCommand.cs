@@ -55,8 +55,6 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Co
 				await _appointmentRepository.UpdateAsync(appointment);
 			}
 
-			await _appointmentRepository.DeleteAsync(appointment);
-
 			bool wasDeleted = true;
 
 			var response = _mapper.Map<DeleteAppointmentResponse>(appointment);

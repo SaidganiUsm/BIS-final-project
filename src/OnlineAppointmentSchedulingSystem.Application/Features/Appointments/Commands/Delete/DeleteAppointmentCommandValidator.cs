@@ -57,6 +57,19 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Co
 					}
 				)
 				.WithMessage("You can delete only your own appointment");
+
+			RuleFor(a => a.Id)
+					.MustAsync(async (id, cancellationToken) =>
+					{
+						var appointment = await _appointmentRepository.GetAsync(
+							predicate: a => a.Id == id,
+							cancellationToken: cancellationToken
+						);
+
+						return (appointment.Date - DateTime.Today).TotalDays >= 1;
+					}
+				)
+				.WithMessage("You can delete the appointment only if there is at least one day left");
 		}
 	}
 }
