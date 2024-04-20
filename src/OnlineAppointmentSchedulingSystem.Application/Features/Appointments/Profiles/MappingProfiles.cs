@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using OnlineAppointmentSchedulingSystem.Application.Common.DTOs;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Commands.Create;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Commands.Delete;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Commands.Update;
+using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Queries.GetAppointmentById;
+using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Queries.GetUserAppointments;
 using OnlineAppointmentSchedulingSystem.Core.Entities;
 
 namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Profiles
@@ -10,6 +13,10 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Pr
 	{
 		public MappingProfiles() 
 		{
+			CreateMap<Appointment, GetAppointmentByIdResponse>().ReverseMap();
+			CreateMap<Appointment, GetUsersAppointmentsResponse>()
+			.ForMember(dest => dest.Doctor, opt => opt.MapFrom(src => src.Doctor));
+
 			CreateMap<Appointment, UpdateAppointmentResponse>().ReverseMap();
 			CreateMap<Appointment, DeleteAppointmentResponse>().ReverseMap();
 			CreateMap<Appointment, CreateAppointmentResponse>().ReverseMap();
