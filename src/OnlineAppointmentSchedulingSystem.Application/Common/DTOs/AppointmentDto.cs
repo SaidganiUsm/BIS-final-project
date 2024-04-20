@@ -10,15 +10,15 @@ namespace OnlineAppointmentSchedulingSystem.Application.Common.DTOs
 
 		public int ClientId { get; set; }
 
-		public User Client { get; set; }
+		public UserDto Client { get; set; }
 
 		public int DoctorId { get; set; }
 
-		public User Doctor { get; set; }
+		public UserDto Doctor { get; set; }
 
 		public int AppointmentStatusId { get; set; }
 
-		public virtual AppointmentStatus AppointmentStatus { get; set; }
+		public virtual AppointmentStatusDto AppointmentStatus { get; set; }
 
 		public int LocationId { get; set; }
 
