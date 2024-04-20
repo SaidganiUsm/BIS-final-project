@@ -11,7 +11,7 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Qu
 
 		public int ClientId { get; set; }
 
-		public User Client { get; set; }
+		public UserDto Client { get; set; }
 
 		public int DoctorId { get; set; }
 
