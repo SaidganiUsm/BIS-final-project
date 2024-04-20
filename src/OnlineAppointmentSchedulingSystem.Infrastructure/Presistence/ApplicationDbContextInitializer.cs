@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using OnlineAppointmentSchedulingSystem.Core.Entities;
 using OnlineAppointmentSchedulingSystem.Infrastructure.Common.Options;
 using Quartz.Logging;
+using System.Security.Policy;
 
 namespace OnlineAppointmentSchedulingSystem.Infrastructure.Presistence
 {
@@ -62,7 +63,8 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Presistence
 			{
 				new Role { Name = "Administrator", },
 				new Role { Name = "Doctor", },
-				new Role { Name = "Patient", }
+				new Role { Name = "Patient", },
+				new Role { Name = "Staff", }
 			};
 
 			foreach (var role in roles)
@@ -94,6 +96,12 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Presistence
 					Email = _usersData.Emails.Patient,
 					EmailConfirmed = true
 				},
+				new User
+				{
+					UserName = _usersData.Emails.Staff,
+					Email = _usersData.Emails.Staff,
+					EmailConfirmed = true
+				},
 			};
 
 			foreach (var user in users)
@@ -114,27 +122,50 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Presistence
 							}
 							break;
 						case "doctor@localhost.com":
-							var buyerRole = roles.Find(r => r.Name == "Doctor");
-							if (buyerRole != null)
+							var doctorRole = roles.Find(r => r.Name == "Doctor");
+							if (doctorRole != null)
 							{
 								await _userManager.AddToRolesAsync(
 									user,
-									new List<string> { buyerRole.Name! }
+									new List<string> { doctorRole.Name! }
 								);
 							}
 							break;
 						case "patient@localhost.com":
-							var sellerRole = roles.Find(r => r.Name == "Patient");
-							if (sellerRole != null)
+							var patientRole = roles.Find(r => r.Name == "Patient");
+							if (patientRole != null)
 							{
 								await _userManager.AddToRolesAsync(
 									user,
-									new List<string> { sellerRole.Name! }
+									new List<string> { patientRole.Name! }
+								);
+							}
+							break;
+						case "staff@localhost.com":
+							var staffRole = roles.Find(r => r.Name == "Staff");
+							if (staffRole != null)
+							{
+								await _userManager.AddToRolesAsync(
+									user,
+									new List<string> { staffRole.Name! }
 								);
 							}
 							break;
 					}
 				}
+			}
+
+			if (!_context.AppointmentsStatuses.Any())
+			{
+				_context.AppointmentsStatuses.AddRange(
+					new AppointmentStatus { Name = "PendingApproval"},
+					new AppointmentStatus { Name = "Rejected"},
+					new AppointmentStatus { Name = "Approved"},
+					new AppointmentStatus { Name = "Done"},
+					new AppointmentStatus { Name = "Cancelled"}
+				);
+
+				await _context.SaveChangesAsync();
 			}
 
 			if (!_context.Categories.Any())

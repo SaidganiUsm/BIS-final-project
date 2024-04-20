@@ -1,7 +1,7 @@
 ﻿using OnlineAppointmentSchedulingSystem.Application.Common.DTOs;
 using OnlineAppointmentSchedulingSystem.Core.Entities;
 
-namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Queries.BaseQueryModels
+namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Doctor.Queries.BaseQueryModels
 {
 	public class GetAllAppointments
 	{
@@ -11,7 +11,7 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Qu
 
 		public int ClientId { get; set; }
 
-		public User Client { get; set; }
+		public UserDto Client { get; set; }
 
 		public int DoctorId { get; set; }
 

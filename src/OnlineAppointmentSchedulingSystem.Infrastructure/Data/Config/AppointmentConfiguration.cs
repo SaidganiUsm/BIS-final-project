@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OnlineAppointmentSchedulingSystem.Core.Entities;
-using System.Security.Cryptography;
 
 namespace OnlineAppointmentSchedulingSystem.Infrastructure.Data.Config
 {
