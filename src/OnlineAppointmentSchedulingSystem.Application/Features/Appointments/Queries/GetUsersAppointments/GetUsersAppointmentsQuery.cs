@@ -2,22 +2,20 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using OnlineAppointmentSchedulingSystem.Application.Common.DTOs;
 using OnlineAppointmentSchedulingSystem.Application.Common.Interfaces;
 using OnlineAppointmentSchedulingSystem.Application.Common.Interfaces.Repositories;
-using OnlineAppointmentSchedulingSystem.Application.Common.Models.Requests;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Queries.GetUserAppointments;
 using OnlineAppointmentSchedulingSystem.Core.Entities;
 
 namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Queries.GetUsersAppointments
 {
-	public class GetUsersAppointmentsQuery : IRequest<GetListResponseDto<GetUsersAppointmentsResponse>>
+	public class GetUsersAppointmentsQuery : IRequest<List<GetUsersAppointmentsResponse>>
 	{
-		public PageRequest PageRequest { get; set; }
+
 	}
 
 	public class GetUsersAppointmentsQueryHandler
-		: IRequestHandler<GetUsersAppointmentsQuery, GetListResponseDto<GetUsersAppointmentsResponse>>
+		: IRequestHandler<GetUsersAppointmentsQuery, List<GetUsersAppointmentsResponse>>
 	{
 
 		private readonly ICurrentUserService _currentUserService;
@@ -38,23 +36,21 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Qu
 			_mapper = mapper;
 		}
 
-		public async Task<GetListResponseDto<GetUsersAppointmentsResponse>> Handle(
+		public async Task<List<GetUsersAppointmentsResponse>> Handle(
 			GetUsersAppointmentsQuery request, 
 			CancellationToken cancellationToken
 		)
 		{
 			var user = await _userManager.FindByEmailAsync(_currentUserService.UserEmail!);
 
-			var userAppointment = await _appointmentRepository.GetListAsync(
+			var userAppointment = await _appointmentRepository.GetUnpaginatedListAsync(
 				predicate: a => a.ClientId == user.Id,
-				include: a => a.Include(u => u.Doctor),
+				include: a => a.Include(d => d.Doctor),
 				enableTracking: false,
-				size: request.PageRequest.PageSize,
-				index: request.PageRequest.PageIndex,
 				cancellationToken: cancellationToken
-				);
+			);
 
-			var response = _mapper.Map<GetListResponseDto<GetUsersAppointmentsResponse>>(userAppointment);
+			var response = _mapper.Map<List<GetUsersAppointmentsResponse>>(userAppointment);
 
 			return response;
 		}

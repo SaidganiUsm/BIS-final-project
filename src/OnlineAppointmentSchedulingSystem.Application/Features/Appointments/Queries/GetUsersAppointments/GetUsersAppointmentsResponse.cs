@@ -1,6 +1,4 @@
 ﻿using OnlineAppointmentSchedulingSystem.Application.Common.DTOs;
-using OnlineAppointmentSchedulingSystem.Core.Entities;
-
 namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Queries.GetUserAppointments
 {
 	public class GetUsersAppointmentsResponse
