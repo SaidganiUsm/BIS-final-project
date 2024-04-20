@@ -4,13 +4,16 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Commands.Create;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Commands.Delete;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Commands.Update;
-using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Queries.GetAppointmentById;
-using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Queries.GetUsersAppointments;
+using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Doctor.Commands.Consider;
+using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Doctor.Queries.GetAllClientAppointments;
+using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Patient.Queries.GetAppointmentById;
+using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Patient.Queries.GetUsersAppointments;
+using OnlineAppointmentSchedulingSystem.Application.Features.Staff.Commands.Create;
 using OnlineAppointmentSchedulingSystem.Core.Enums;
 
 namespace OnlineAppointmentSchedulingSystem.API.Controllers
 {
-	[ApiController]
+    [ApiController]
 	[Route("api/[controller]")]
 	public class AppointmentsController : ControllerBase
 	{
@@ -21,7 +24,7 @@ namespace OnlineAppointmentSchedulingSystem.API.Controllers
             _mediator = mediator;
         }
 
-		[HttpPost]
+		[HttpPost("Create")]
 		[Authorize(Roles = "Patient")]
 		public async Task<IActionResult> Create([FromBody] CreateAppointmentCommand command)
 		{
@@ -29,7 +32,7 @@ namespace OnlineAppointmentSchedulingSystem.API.Controllers
 			return Ok(result);
 		}
 
-		[HttpPut]
+		[HttpPut("Update")]
 		[Authorize(Roles = "Patient")]
 		public async Task<IActionResult> Update([FromBody] UpdateAppointmentCommand command)
 		{
@@ -37,7 +40,7 @@ namespace OnlineAppointmentSchedulingSystem.API.Controllers
 			return Ok(result);
 		}
 
-		[HttpDelete]
+		[HttpDelete("Delete")]
 		[Authorize(Roles = "Patient")]
 		public async Task<IActionResult> Delete([FromRoute] int id)
 		{
@@ -51,9 +54,9 @@ namespace OnlineAppointmentSchedulingSystem.API.Controllers
 			);
 		}
 
-		[HttpGet]
+		[HttpGet("patient-appointments")]
 		[Authorize(Roles = "Patient")]
-		public async Task<IActionResult> GetAll()
+		public async Task<IActionResult> GetAllPatientAppointments()
 		{
 			var query = new GetUsersAppointmentsQuery();
 			var appointments = await _mediator.Send(query);
@@ -61,7 +64,7 @@ namespace OnlineAppointmentSchedulingSystem.API.Controllers
 		}
 
 		[HttpGet("{id}")]
-		[Authorize(Roles = "Patient,Doctor")]
+		[Authorize(Roles = "Patient, Doctor, Staff")]
 		public async Task<IActionResult> Get(int id)
 		{
 			var query = new GetAppointmentByIdQuery { Id = id };
@@ -75,5 +78,29 @@ namespace OnlineAppointmentSchedulingSystem.API.Controllers
 			return Ok(appointment);
 		}
 
+		[HttpGet("doctor-appointments")]
+		[Authorize(Roles = "Doctor")]
+		public async Task<IActionResult> GetAllDoctorAppointments()
+		{
+			var query = new GetAllClinetAppointmentsQuery();
+			var appointments = await _mediator.Send(query);
+			return Ok(appointments);
+		}
+
+		[HttpPut("consider")]
+		[Authorize(Roles = "Doctor")]
+		public async Task<IActionResult> Consider([FromBody] ConsiderAppointmentCommand command)
+		{
+			var appointments = await _mediator.Send(command);
+			return Ok(appointments);
+		}
+
+		[HttpPost("create/staff")]
+		[Authorize(Roles = "Staff")]
+		public async Task<IActionResult> CreateAppointmentStaff([FromBody] CreateAppoitnmentByStaffCommand command)
+		{
+			var appointment = await _mediator.Send(command);
+			return Ok(appointment);
+		}
 	}
 }
