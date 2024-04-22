@@ -101,6 +101,7 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure
 			services.AddScoped<IIdentityService, IdentityService>();
 			services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 			services.AddScoped<IAppointmentStatusRepository, AppointmentStatusRepository>();
+			services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 			services.AddTransient<IEmailService, EmailService>();
 
