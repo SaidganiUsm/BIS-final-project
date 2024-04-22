@@ -56,11 +56,14 @@ export class LoginComponent {
                     if (this.authService.isUserLoggedIn()) {
                         if (
                             this.authService.isUserDoctor() ||
-                            this.authService.isUserPatient()
+                            this.authService.isUserPatient() ||
+                            this.authService.isUserStaff()
                         ) {
                             this.router.navigate(['/home']);
+                            window.location.reload();
                         } else {
-                            this.router.navigate(['/auth/register-role']);
+                            this.router.navigate(['/home']);
+                            window.location.reload();
                         }
                     }
                 },

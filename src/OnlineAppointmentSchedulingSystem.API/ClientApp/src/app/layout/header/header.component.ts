@@ -10,10 +10,10 @@ import { ChoicePopupComponent } from 'src/app/ui-elements/choice-popup/choice-po
     styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-    isUserDoctor: boolean = false;
+    isUserLoggedIn: boolean = false;
 
-    private IsUserDoctor = effect(() => {
-        this.isUserDoctor = this.authService.isUserDoctor();
+    private IsUserLoggedIn = effect(() => {
+        this.isUserLoggedIn = this.authService.isUserLoggedIn();
     });
 
     constructor(
