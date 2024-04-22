@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { ApiAuthorizationModule } from './api-authorization/api-authorization.module';
 import { AuthorizeInterceptor } from './api-authorization/authorize.interceptor';
 import { GeneralModule } from './components/general/general.module';
+import { LayoutModule } from './layout/layout.module';
 
 @NgModule({
     declarations: [AppComponent],
@@ -18,6 +19,7 @@ import { GeneralModule } from './components/general/general.module';
         HttpClientModule,
         BrowserAnimationsModule,
         GeneralModule,
+        LayoutModule,
     ],
     providers: [
         {

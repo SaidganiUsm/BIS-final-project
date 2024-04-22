@@ -5,9 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { ChoicePopupComponent } from './choice-popup/choice-popup.component';
 
 @NgModule({
-    declarations: [DialogPopupComponent],
+    declarations: [DialogPopupComponent, ChoicePopupComponent],
     imports: [
         CommonModule,
         FormsModule,

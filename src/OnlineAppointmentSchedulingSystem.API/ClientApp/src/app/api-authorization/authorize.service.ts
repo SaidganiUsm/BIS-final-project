@@ -24,6 +24,7 @@ export enum UserRole {
     Doctor = 'Doctor',
     Patient = 'Patient',
     User = 'User',
+    Staff = 'Staff',
 }
 
 export interface IUser {
@@ -214,6 +215,14 @@ export class AuthorizeService {
 
     isUserPatient = computed(() => {
         return this.user?.role() == UserRole.Patient;
+    });
+
+    isUserStaff = computed(() => {
+        return this.user?.role() == UserRole.Staff;
+    });
+
+    isUserAdmin = computed(() => {
+        return this.user?.role() == UserRole.Administrator;
     });
 
     getUserId = computed(() => this.user?.userId());

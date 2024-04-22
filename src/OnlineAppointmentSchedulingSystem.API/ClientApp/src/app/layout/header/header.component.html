@@ -1,0 +1,48 @@
+<div class="header">
+    <a routerLink="/home">
+        <img src="assets/icons/MED-APSUZ.png" title="MED-APSUZ" />
+    </a>
+
+    <div class="header__search">
+        <app-search
+            [searchPlaceholder]="'Search by name or name...'"
+        ></app-search>
+    </div>
+
+    <ul class="navigation">
+        <ng-container>
+            <li>
+                <img src="assets/icons/CalendarIcon.svg" alt="Calendar Icon" />
+                <a routerLink="/user/Calendar">Calendar</a>
+            </li>
+        </ng-container>
+        <ng-container>
+            <li>
+                <img src="assets/icons/ProfileIcon.svg" alt="Profile Icon" />
+                <a routerLink="/profile">My Profile</a>
+            </li>
+            <li class="logout__btn">
+                <button
+                    type="button"
+                    (click)="logout()"
+                    mat-flat-button
+                    color="white"
+                >
+                    <div class="logout__btn-content">
+                        <img
+                            src="assets/icons/LogoutIcon.svg"
+                            alt="Logout Icon"
+                        />
+                        Logout
+                    </div>
+                </button>
+            </li>
+        </ng-container>
+        <ng-container *ngIf="!isUserDoctor">
+            <li>
+                <img src="assets/icons/ProfileIcon.svg" alt="Profile Icon" />
+                <a routerLink="/auth/login">Login</a>
+            </li>
+        </ng-container>
+    </ul>
+</div>

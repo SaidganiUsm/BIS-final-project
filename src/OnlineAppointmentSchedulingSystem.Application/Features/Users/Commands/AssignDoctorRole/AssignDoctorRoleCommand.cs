@@ -31,19 +31,19 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Users.Commands.
 			var user = await _userManager.FindByEmailAsync(request.Email);
 			if (user == null)
 			{
-				return null;
+				throw new ValidationException("User not found!");
 			}
 
 			var isInRole = await _userManager.IsInRoleAsync(user, role.ToString());
 			if (isInRole)
 			{
-				throw new ValidationException("User has same role");
+				throw new ValidationException("User has same role!");
 			}
 
 			var doctorRole = await _roleManager.FindByNameAsync(role.ToString());
 			if (doctorRole == null)
 			{
-				return null;
+				throw new ValidationException("Role does not found!");
 			}
 
 			var existingRoles = await _userManager.GetRolesAsync(user);
