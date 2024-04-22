@@ -8,7 +8,7 @@ using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Doctor
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Doctor.Queries.GetAllClientAppointments;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Patient.Queries.GetAppointmentById;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Patient.Queries.GetUsersAppointments;
-using OnlineAppointmentSchedulingSystem.Application.Features.Staff.Commands.Create;
+using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Staff.Commands.Create;
 using OnlineAppointmentSchedulingSystem.Core.Enums;
 
 namespace OnlineAppointmentSchedulingSystem.API.Controllers
