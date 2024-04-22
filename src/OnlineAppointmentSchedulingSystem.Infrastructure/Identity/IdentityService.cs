@@ -155,7 +155,7 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Identity
 				email,
 				"Reset Password",
 				"<h1>Follow the instructions to reset your password</h1>"
-					+ $"<p>To reset your password '{url}'</p>"
+					+ $"<p>To reset your password <a href={url}>Click Here</a></p>"
 			);
 
 			return new ResetPasswordResponse
@@ -240,9 +240,9 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Identity
 				await _emailService.SendEmailAsync(
 					user.Email,
 					"Confirm your email",
-					$"<h1>Welcome to Auctionify</h1>"
+					$"<h1>Welcome to MED-APSUZ</h1>"
 						+ $"<p>Please confirm your email by</p>"
-						+ $"<p>https://localhost:7230{url}</p>"
+						+ $"<p><a href={url}>Clicking Here</a></p>"
 				);
 
 				return new RegisterResponse

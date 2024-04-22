@@ -5,7 +5,7 @@
 
     <div class="header__search">
         <app-search
-            [searchPlaceholder]="'Search by name or name...'"
+            [searchPlaceholder]="'Search in website...'"
         ></app-search>
     </div>
 
@@ -16,7 +16,7 @@
                 <a routerLink="/user/Calendar">Calendar</a>
             </li>
         </ng-container>
-        <ng-container>
+        <ng-container *ngIf="isUserLoggedIn">
             <li>
                 <img src="assets/icons/ProfileIcon.svg" alt="Profile Icon" />
                 <a routerLink="/profile">My Profile</a>
@@ -38,7 +38,7 @@
                 </button>
             </li>
         </ng-container>
-        <ng-container *ngIf="!isUserDoctor">
+        <ng-container *ngIf="!isUserLoggedIn">
             <li>
                 <img src="assets/icons/ProfileIcon.svg" alt="Profile Icon" />
                 <a routerLink="/auth/login">Login</a>
