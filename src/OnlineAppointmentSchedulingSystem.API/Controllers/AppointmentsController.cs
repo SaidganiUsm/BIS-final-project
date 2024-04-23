@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Commands.Create;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Commands.Delete;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Commands.Update;
+using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Doctor.Commands.AddResult;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Doctor.Commands.Consider;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Doctor.Queries.GetAllClientAppointments;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Patient.Queries.GetAppointmentById;
@@ -98,6 +99,14 @@ namespace OnlineAppointmentSchedulingSystem.API.Controllers
 		[HttpPost("create/staff")]
 		[Authorize(Roles = "Staff")]
 		public async Task<IActionResult> CreateAppointmentStaff([FromBody] CreateAppoitnmentByStaffCommand command)
+		{
+			var appointment = await _mediator.Send(command);
+			return Ok(appointment);
+		}
+
+		[HttpPut("set-results")]
+		[Authorize(Roles = "Doctor")]
+		public async Task<IActionResult> AddingAppointmentResutt([FromBody] AddAppointmentResultCommand command)
 		{
 			var appointment = await _mediator.Send(command);
 			return Ok(appointment);
