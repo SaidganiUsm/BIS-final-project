@@ -7,6 +7,7 @@ using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Comman
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Doctor.Commands.AddResult;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Doctor.Commands.Consider;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Doctor.Queries.GetAllClientAppointments;
+using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Patient.Queries.GetAllDoctorAppointments;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Patient.Queries.GetAppointmentById;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Patient.Queries.GetUsersAppointments;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Staff.Commands.Create;
@@ -57,16 +58,19 @@ namespace OnlineAppointmentSchedulingSystem.API.Controllers
 
 		[HttpGet("patient-appointments")]
 		[Authorize(Roles = "Patient")]
-		public async Task<IActionResult> GetAllPatientAppointments()
+		public async Task<IActionResult> GetAllPatientAppointments(DateTime date)
 		{
-			var query = new GetUsersAppointmentsQuery();
+			var query = new GetUsersAppointmentsQuery()
+			{
+				DateTime = date,
+			};
 			var appointments = await _mediator.Send(query);
 			return Ok(appointments);
 		}
 
 		[HttpGet("{id}")]
 		[Authorize(Roles = "Patient, Doctor, Staff")]
-		public async Task<IActionResult> Get(int id)
+		public async Task<IActionResult> Get([FromQuery] int id)
 		{
 			var query = new GetAppointmentByIdQuery { Id = id };
 			var appointment = await _mediator.Send(query);
@@ -81,9 +85,12 @@ namespace OnlineAppointmentSchedulingSystem.API.Controllers
 
 		[HttpGet("doctor-appointments")]
 		[Authorize(Roles = "Doctor")]
-		public async Task<IActionResult> GetAllDoctorAppointments()
+		public async Task<IActionResult> GetAllDoctorAppointments([FromBody] DateTime date)
 		{
-			var query = new GetAllClinetAppointmentsQuery();
+			var query = new GetAllClinetAppointmentsQuery()
+			{
+				DateTime = date
+			};
 			var appointments = await _mediator.Send(query);
 			return Ok(appointments);
 		}
@@ -109,6 +116,16 @@ namespace OnlineAppointmentSchedulingSystem.API.Controllers
 		public async Task<IActionResult> AddingAppointmentResutt([FromBody] AddAppointmentResultCommand command)
 		{
 			var appointment = await _mediator.Send(command);
+			return Ok(appointment);
+		}
+
+		[HttpGet("appointment-doctor")]
+		[Authorize(Roles = "Doctor, Staff, Patient")]
+		public async Task<IActionResult> GetDoctorAppointments([FromBody] int id, DateTime date)
+		{
+			var query = new GetAllDoctorAppointmentsQuery { Id = id, DateTime = date };
+			var appointment = await _mediator.Send(query);
+
 			return Ok(appointment);
 		}
 	}
