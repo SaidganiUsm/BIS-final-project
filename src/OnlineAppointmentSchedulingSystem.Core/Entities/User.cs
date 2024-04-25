@@ -8,6 +8,10 @@ namespace OnlineAppointmentSchedulingSystem.Core.Entities
 
 		public string? LastName { get; set; }
 
+		public string? AboutMe { get; set; }
+
+		public int? Expirience { get; set; }
+
 		public int? CategoryId { get; set; }
 
 		public virtual Category? Category { get; set; }

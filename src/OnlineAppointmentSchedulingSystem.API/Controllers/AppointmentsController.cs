@@ -58,7 +58,7 @@ namespace OnlineAppointmentSchedulingSystem.API.Controllers
 
 		[HttpGet("patient-appointments")]
 		[Authorize(Roles = "Patient")]
-		public async Task<IActionResult> GetAllPatientAppointments(DateTime date)
+		public async Task<IActionResult> GetAllPatientAppointments([FromQuery] DateTime date)
 		{
 			var query = new GetUsersAppointmentsQuery()
 			{
