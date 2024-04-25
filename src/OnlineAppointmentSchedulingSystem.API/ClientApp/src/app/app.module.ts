@@ -9,9 +9,11 @@ import { ApiAuthorizationModule } from './api-authorization/api-authorization.mo
 import { AuthorizeInterceptor } from './api-authorization/authorize.interceptor';
 import { GeneralModule } from './components/general/general.module';
 import { LayoutModule } from './layout/layout.module';
+import { CreateAppointmentComponent } from './components/patient/create-appointment/create-appointment.component';
+import { ConsiderAppointmentComponent } from './components/doctor/consider-appointment/consider-appointment.component';
 
 @NgModule({
-    declarations: [AppComponent],
+    declarations: [AppComponent, CreateAppointmentComponent, ConsiderAppointmentComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,
