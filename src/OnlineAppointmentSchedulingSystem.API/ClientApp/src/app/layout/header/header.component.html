@@ -4,14 +4,16 @@
     </a>
 
     <div class="header__search">
-        <app-search [searchPlaceholder]="'Search in website...'"></app-search>
+        <app-search
+            [searchPlaceholder]="'Search in website...'"
+        ></app-search>
     </div>
 
     <ul class="navigation">
         <ng-container>
             <li>
                 <img src="assets/icons/CalendarIcon.svg" alt="Calendar Icon" />
-                <a routerLink="/appointment/calendar">Calendar</a>
+                <a routerLink="/user/Calendar">Calendar</a>
             </li>
         </ng-container>
         <ng-container *ngIf="isUserLoggedIn">

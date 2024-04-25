@@ -11,8 +11,8 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Do
 {
     public class GetAllClinetAppointmentsQuery : IRequest<List<GetAllClinetAppointmentsResponse>>
     {
-		public DateTime? DateTime { get; set; }
-	}
+
+    }
 
     public class GetAllClinetAppointmentsQueryHandler
         : IRequestHandler<GetAllClinetAppointmentsQuery, List<GetAllClinetAppointmentsResponse>>
@@ -42,12 +42,8 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Do
         {
 			var user = await _userManager.FindByEmailAsync(_currentUserService.UserEmail!);
 
-			DateTime queryDate = request.DateTime ?? DateTime.Today;
-			var startDate = queryDate.Date;
-			var endDate = startDate.AddDays(1).AddTicks(-1);
-
 			var userAppointment = await _appointmentRepository.GetUnpaginatedListAsync(
-				predicate: a => a.DoctorId == user.Id && a.Date >= startDate && a.Date <= endDate,
+				predicate: a => a.DoctorId == user.Id,
 				include: a => a.Include(s => s.AppointmentStatus),
 				enableTracking: false,
 				cancellationToken: cancellationToken
