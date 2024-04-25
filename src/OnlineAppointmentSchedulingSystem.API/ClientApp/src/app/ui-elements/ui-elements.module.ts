@@ -6,9 +6,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { ChoicePopupComponent } from './choice-popup/choice-popup.component';
+import { CalendarComponent } from './calendar/calendar.component';
+import { MiniProfileBarComponent } from './mini-profile-bar/mini-profile-bar.component';
 
 @NgModule({
-    declarations: [DialogPopupComponent, ChoicePopupComponent],
+    declarations: [
+        DialogPopupComponent,
+        ChoicePopupComponent,
+        CalendarComponent,
+        MiniProfileBarComponent,
+    ],
     imports: [
         CommonModule,
         FormsModule,
@@ -16,6 +23,6 @@ import { ChoicePopupComponent } from './choice-popup/choice-popup.component';
         RouterModule,
         MatIconModule,
     ],
-    exports: [],
+    exports: [CalendarComponent, MiniProfileBarComponent],
 })
 export class UiElementsModule {}

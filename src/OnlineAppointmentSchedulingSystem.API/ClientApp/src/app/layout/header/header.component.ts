@@ -11,6 +11,16 @@ import { ChoicePopupComponent } from 'src/app/ui-elements/choice-popup/choice-po
 })
 export class HeaderComponent {
     isUserLoggedIn: boolean = false;
+    isUserDoctor: boolean = false;
+    isUserPatient: boolean = false;
+
+    private IsUserDoctor = effect(() => {
+        this.isUserDoctor = this.authService.isUserDoctor();
+    });
+
+    private IsUserPatient = effect(() => {
+        this.isUserPatient = this.authService.isUserPatient();
+    });
 
     private IsUserLoggedIn = effect(() => {
         this.isUserLoggedIn = this.authService.isUserLoggedIn();
