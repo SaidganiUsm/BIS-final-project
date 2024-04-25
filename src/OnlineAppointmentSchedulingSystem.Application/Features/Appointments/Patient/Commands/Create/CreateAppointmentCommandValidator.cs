@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using OnlineAppointmentSchedulingSystem.Application.Common.Interfaces.Repositories;
+using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.BaseValidators;
 using OnlineAppointmentSchedulingSystem.Core.Enums;
 
 namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Commands.Create

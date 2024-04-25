@@ -3,7 +3,6 @@ import { Observable, throwError, of } from 'rxjs';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserRole } from './api-authorization/authorize.service';
-import { AppointmentDto } from './models/Appointments/appointment-model';
 
 export const API_BASE_URL = new InjectionToken('API_BASE_URL');
 
@@ -158,31 +157,6 @@ export class Client {
         };
 
         return this.http.request('put', url_, options_).pipe(
-            catchError((error) => {
-                return throwError(() => error.error);
-            })
-        );
-    }
-
-    getUserAppointments(date?: Date): Observable<AppointmentDto[]> {
-        const queryDate = date ? date.toISOString() : new Date().toISOString();
-        const url = `${this.baseUrl}/api/Appointments/patient-appointments?date=${queryDate}`;
-
-        return this.http.get<AppointmentDto[]>(url).pipe(
-            catchError((error) => {
-                return throwError(() => error.error);
-            })
-        );
-    }
-
-    getDoctorAppointments(
-        doctorId: number,
-        date?: Date
-    ): Observable<AppointmentDto[]> {
-        const queryDate = date ? date.toISOString() : new Date().toISOString();
-        const url = `${this.baseUrl}/api/Appointments/appointment-doctor?id=${doctorId}&date=${queryDate}`;
-
-        return this.http.get<AppointmentDto[]>(url).pipe(
             catchError((error) => {
                 return throwError(() => error.error);
             })

@@ -5,7 +5,6 @@ using OnlineAppointmentSchedulingSystem.API.Middlewares;
 using OnlineAppointmentSchedulingSystem.API.Services;
 using OnlineAppointmentSchedulingSystem.Application;
 using OnlineAppointmentSchedulingSystem.Application.Common.Interfaces;
-using OnlineAppointmentSchedulingSystem.Application.Hubs;
 using OnlineAppointmentSchedulingSystem.Infrastructure;
 using OnlineAppointmentSchedulingSystem.Infrastructure.Presistence;
 using sib_api_v3_sdk.Client;
@@ -23,8 +22,6 @@ public class Program
 		{
 			logger.Debug("init main");
 			var builder = WebApplication.CreateBuilder(args);
-
-			builder.Services.AddSignalR();
 
 			builder.Services.AddApplicationServices(builder.Configuration);
 			builder.Services.AddInfrastructureServices(builder.Configuration);
@@ -155,8 +152,6 @@ public class Program
 
 			app.MapControllers();
 			app.MapFallbackToFile("index.html");
-
-			app.MapHub<AppointmentHub>("/hubs/appointment-hub"); // SignalR hub
 
 			app.Run();
 		}
