@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineAppointmentSchedulingSystem.Application.Features.Users.Commands.AssignDoctorRole;
 using OnlineAppointmentSchedulingSystem.Application.Features.Users.Queries.GetDoctors;
