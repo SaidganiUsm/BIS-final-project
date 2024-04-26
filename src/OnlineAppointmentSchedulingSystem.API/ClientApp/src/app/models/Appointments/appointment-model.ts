@@ -1,10 +1,4 @@
-export interface UserDto {
-    id: number;
-    firstName: string | null;
-    lastName: string | null;
-    aboutMe: string | null;
-    expirience: number | null;
-}
+import { UserDto } from "../DTOs/UserDto-model";
 
 export interface AppointmentStatusDto {
     id: number;

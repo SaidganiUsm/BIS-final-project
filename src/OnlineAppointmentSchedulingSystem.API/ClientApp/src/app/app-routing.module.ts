@@ -4,10 +4,20 @@ import { MainPageComponent } from './components/general/main-page/main-page.comp
 import { isDoctorGuard } from './guards/doctor/is-doctor.guard';
 import { isPatientGuard } from './guards/patient/is-patient.guard';
 import { isStaffGuard } from './guards/staff/is-staff.guard';
+import { isLoggedInGuard } from './guards/is-logged-in.guard';
 
 const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', component: MainPageComponent },
+    {
+        path: 'profile',
+        loadChildren: () =>
+            import('./components/general/profile/profile.module').then(
+                (m) => m.ProfileModule
+            ),
+        data: { breadcrumb: { skip: true } },
+        canActivate: [isLoggedInGuard],
+    },
     {
         path: 'appointment',
         loadChildren: () =>
