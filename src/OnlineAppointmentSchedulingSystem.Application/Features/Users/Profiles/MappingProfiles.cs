@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using OnlineAppointmentSchedulingSystem.Application.Features.Users.Commands.AssignDoctorRole;
+using OnlineAppointmentSchedulingSystem.Application.Features.Users.Commands.Update;
 using OnlineAppointmentSchedulingSystem.Application.Features.Users.Queries.GetDoctors;
+using OnlineAppointmentSchedulingSystem.Application.Features.Users.Queries.GetUserProfile;
 using OnlineAppointmentSchedulingSystem.Core.Entities;
 
 namespace OnlineAppointmentSchedulingSystem.Application.Features.Users.Profiles
@@ -10,8 +12,10 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Users.Profiles
         public MappingProfiles()
         {
             CreateMap<GetDoctorsQueryResponse, User>().ReverseMap();
+            CreateMap<UpdatedUserResponse, User>().ReverseMap();
 
-			CreateMap<AssignDoctorRoleCommandResponse, User>().ReverseMap();
+			CreateMap<AssignDoctorRoleResponse, User>().ReverseMap();
+            CreateMap<GetUserProfileResponse, User>().ReverseMap();
         }
     }
 }

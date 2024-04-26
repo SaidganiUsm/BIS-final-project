@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using OnlineAppointmentSchedulingSystem.Application.Common.Interfaces.Repositories;
-using OnlineAppointmentSchedulingSystem.Core.Entities;
 using Microsoft.EntityFrameworkCore;
+using OnlineAppointmentSchedulingSystem.Core.Enums;
 
 namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Patient.Queries.GetAllDoctorAppointments
 {
@@ -33,12 +32,20 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Pa
 		{
 			DateTime queryDate = request.DateTime ?? DateTime.Today;
 			var startDate = queryDate.Date; 
-			var endDate = startDate.AddDays(1).AddTicks(-1); 
+			var endDate = startDate.AddDays(1).AddTicks(-1);
+
+			var approved = AppointmentStatusEnum.Approved.ToString();
+			var pendingApproval = AppointmentStatusEnum.PendingApproval.ToString();
+
 
 			var userAppointments = await _appointmentRepository.GetUnpaginatedListAsync(
-				predicate: a => a.DoctorId == request.Id && a.Date >= startDate && a.Date <= endDate,
+				predicate: a => a.DoctorId == request.Id 
+					&& a.Date >= startDate 
+					&& a.Date <= endDate
+					&& a.AppointmentStatus!.Name == approved
+					&& a.AppointmentStatus.Name == pendingApproval,
 				include: a => a.Include(d => d.Doctor)
-							.Include(s => s.AppointmentStatus),
+							.Include(s => s.AppointmentStatus!),
 				enableTracking: false,
 				cancellationToken: cancellationToken
 			);
