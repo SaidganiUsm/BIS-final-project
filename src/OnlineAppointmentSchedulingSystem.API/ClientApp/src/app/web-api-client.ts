@@ -3,6 +3,12 @@ import { Observable, throwError, of } from 'rxjs';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserRole } from './api-authorization/authorize.service';
+import { AppointmentDto } from './models/Appointments/appointment-model';
+import {
+    GetUserById,
+    UpdateUserProfileModel,
+    UserProfileModel,
+} from './models/User/user-model';
 
 export const API_BASE_URL = new InjectionToken('API_BASE_URL');
 
@@ -159,6 +165,100 @@ export class Client {
         return this.http.request('put', url_, options_).pipe(
             catchError((error) => {
                 return throwError(() => error.error);
+            })
+        );
+    }
+
+    getUserAppointments(date?: Date): Observable<AppointmentDto[]> {
+        const queryDate = date ? date.toISOString() : new Date().toISOString();
+        const url = `${this.baseUrl}/api/Appointments/patient-appointments?date=${queryDate}`;
+
+        return this.http.get<AppointmentDto[]>(url).pipe(
+            catchError((error) => {
+                return throwError(() => error.error);
+            })
+        );
+    }
+
+    getDoctorAppointments(
+        doctorId: number,
+        date?: Date
+    ): Observable<AppointmentDto[]> {
+        const queryDate = date ? date.toISOString() : new Date().toISOString();
+        const url = `${this.baseUrl}/api/Appointments/appointment-doctor?id=${doctorId}&date=${queryDate}`;
+
+        return this.http.get<AppointmentDto[]>(url).pipe(
+            catchError((error) => {
+                return throwError(() => error.error);
+            })
+        );
+    }
+
+    getUserData(): Observable<UserProfileModel> {
+        let url_ = this.baseUrl + `/api/users/user-profile`;
+
+        let options_: any = {
+            observe: 'response',
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                Accept: 'text/json',
+            }),
+        };
+
+        return this.http.request('get', url_, options_).pipe(
+            mergeMap((response: any): Observable<UserProfileModel> => {
+                let data!: UserProfileModel;
+
+                if (response.body !== null) {
+                    data = response.body;
+                }
+
+                return of(data);
+            })
+        );
+    }
+
+    updateProfile(body: UpdateUserProfileModel): Observable<any> {
+        let url_ = this.baseUrl + `/api/users/`;
+
+        const formData = new FormData();
+
+        formData.append('firstName', body.firstName ?? '');
+        formData.append('lastName', body.lastName ?? '');
+        formData.append('phoneNumber', body.phoneNumber ?? '');
+        formData.append('aboutMe', body.aboutMe ?? '');
+
+        let options_: any = {
+            body: formData,
+        };
+
+        return this.http.request('put', url_, options_).pipe(
+            catchError((error) => {
+                return throwError(() => error.error);
+            })
+        );
+    }
+
+    getUserById(userId: number): Observable<GetUserById> {
+        let url_ = `${this.baseUrl}/api/users/${userId}`;
+
+        let options_: any = {
+            observe: 'response',
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                Accept: 'text/json',
+            }),
+        };
+
+        return this.http.request('get', url_, options_).pipe(
+            mergeMap((response: any): Observable<GetUserById> => {
+                let data!: GetUserById;
+
+                if (response.body !== null) {
+                    data = response.body;
+                }
+
+                return of(data);
             })
         );
     }

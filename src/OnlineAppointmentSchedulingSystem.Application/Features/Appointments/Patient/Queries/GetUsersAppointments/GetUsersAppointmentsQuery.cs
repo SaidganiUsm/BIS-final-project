@@ -10,7 +10,7 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Pa
 {
     public class GetUsersAppointmentsQuery : IRequest<List<GetUsersAppointmentsResponse>>
     {
-
+        public DateTime? DateTime { get; set; }
     }
 
     public class GetUsersAppointmentsQueryHandler
@@ -42,16 +42,19 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Pa
         {
             var user = await _userManager.FindByEmailAsync(_currentUserService.UserEmail!);
 
-            var userAppointment = await _appointmentRepository.GetUnpaginatedListAsync(
-                predicate: a => a.ClientId == user.Id,
-                include: a => a
-                    .Include(d => d.Doctor)
-                    .Include(s => s.AppointmentStatus),
-                enableTracking: false,
-                cancellationToken: cancellationToken
-            );
+			DateTime queryDate = request.DateTime ?? DateTime.Today;
+			var startDate = queryDate.Date;
+            var endDate = startDate.AddDays(1).AddTicks(-1);
 
-            var response = _mapper.Map<List<GetUsersAppointmentsResponse>>(userAppointment);
+			var userAppointments = await _appointmentRepository.GetUnpaginatedListAsync(
+				predicate: a => a.ClientId == user.Id && a.Date >= startDate && a.Date <= endDate,
+				include: a => a.Include(d => d.Doctor)
+							.Include(s => s.AppointmentStatus),
+				enableTracking: false,
+				cancellationToken: cancellationToken
+			);
+
+            var response = _mapper.Map<List<GetUsersAppointmentsResponse>>(userAppointments);
 
             return response;
         }

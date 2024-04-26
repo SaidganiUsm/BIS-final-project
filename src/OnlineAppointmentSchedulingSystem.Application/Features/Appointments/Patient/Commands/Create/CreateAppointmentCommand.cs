@@ -11,7 +11,13 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Co
 {
 	public class CreateAppointmentCommand : IRequest<CreateAppointmentResponse>
 	{
-		public DateTime Date { get; set; }
+		private DateTime _date;
+
+		public DateTime Date
+		{
+			get => _date;
+			set => _date = new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, 0);
+		}
 
 		public int DoctorId { get; set; }
 	}

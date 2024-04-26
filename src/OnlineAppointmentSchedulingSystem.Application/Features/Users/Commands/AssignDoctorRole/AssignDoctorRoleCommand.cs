@@ -6,13 +6,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OnlineAppointmentSchedulingSystem.Application.Features.Users.Commands.AssignDoctorRole
 {
-	public class AssignDoctorRoleCommand : IRequest<AssignDoctorRoleCommandResponse>
+	public class AssignDoctorRoleCommand : IRequest<AssignDoctorRoleResponse>
 	{
 		public string Email { get; set; }
 	}
 
 	public class AssignDoctorRoleCommandHandler 
-		: IRequestHandler<AssignDoctorRoleCommand, AssignDoctorRoleCommandResponse>
+		: IRequestHandler<AssignDoctorRoleCommand, AssignDoctorRoleResponse>
 	{
 		private readonly UserManager<User> _userManager;
 		private readonly RoleManager<Role> _roleManager;
@@ -25,7 +25,7 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Users.Commands.
             _roleManager = roleManager;
 			_userManager = userManager;
         }
-        public async Task<AssignDoctorRoleCommandResponse> Handle(AssignDoctorRoleCommand request, CancellationToken cancellationToken)
+        public async Task<AssignDoctorRoleResponse> Handle(AssignDoctorRoleCommand request, CancellationToken cancellationToken)
 		{
 			var role = UserRolesEnum.Doctor;
 			var user = await _userManager.FindByEmailAsync(request.Email);
@@ -55,7 +55,7 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Users.Commands.
 				return null;
 			}
 
-			return new AssignDoctorRoleCommandResponse { Id = user.Id };
+			return new AssignDoctorRoleResponse { Id = user.Id };
 		}
 	}
 }
