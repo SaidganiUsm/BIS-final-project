@@ -25,6 +25,10 @@ import { StaffCalendarComponent } from './staff-calendar/staff-calendar.componen
         RouterModule,
         MatIconModule,
     ],
-    exports: [],
+    exports: [
+        MiniProfileBarComponent,
+        CalendarComponent,
+        StaffCalendarComponent,
+    ],
 })
 export class UiElementsModule {}
