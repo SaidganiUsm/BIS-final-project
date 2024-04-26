@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineAppointmentSchedulingSystem.Application.Features.Users.Commands.Update;
+using OnlineAppointmentSchedulingSystem.Application.Features.Users.Queries.GetById;
 using OnlineAppointmentSchedulingSystem.Application.Features.Users.Queries.GetUserProfile;
 
 namespace OnlineAppointmentSchedulingSystem.API.Controllers
@@ -31,6 +32,15 @@ namespace OnlineAppointmentSchedulingSystem.API.Controllers
 		)
 		{
 			var result = await _mediator.Send(updateUserCommand);
+			return Ok(result);
+		}
+
+		[HttpGet("{id}")]
+		[Authorize(Roles = "Doctor, Patient, Staff")]
+		public async Task<IActionResult> GetById(string id)
+		{
+			var result = await _mediator.Send(new GetByIdUserQuery { Id = id });
+
 			return Ok(result);
 		}
 	}

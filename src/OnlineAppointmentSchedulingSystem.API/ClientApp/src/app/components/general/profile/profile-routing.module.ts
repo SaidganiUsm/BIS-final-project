@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { UpdateUserProfileComponent } from './update-user-profile/update-user-profile.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { PublicUserProfileComponent } from './public-user-profile/public-user-profile.component';
 
 const profileRoutes: Routes = [
     {
@@ -18,6 +19,11 @@ const profileRoutes: Routes = [
     {
         path: 'change-password',
         component: ChangePasswordComponent,
+        pathMatch: 'full',
+    },
+    {
+        path: 'user/:id',
+        component: PublicUserProfileComponent,
         pathMatch: 'full',
     },
 ];

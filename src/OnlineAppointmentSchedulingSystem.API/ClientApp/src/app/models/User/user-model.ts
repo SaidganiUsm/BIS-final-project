@@ -16,3 +16,13 @@ export interface UserProfileModel {
     expirience: number | null;
     category: CategoryDto | null;
 }
+
+export interface GetUserById {
+    id: number;
+    firstName: string | null;
+    lastName: string | null;
+    phoneNumber: string | null;
+    aboutMe: string | null;
+    expirience: number | null;
+    category: CategoryDto | null;
+}

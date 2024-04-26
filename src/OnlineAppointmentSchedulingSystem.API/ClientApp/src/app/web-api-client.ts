@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserRole } from './api-authorization/authorize.service';
 import { AppointmentDto } from './models/Appointments/appointment-model';
 import {
+    GetUserById,
     UpdateUserProfileModel,
     UserProfileModel,
 } from './models/User/user-model';
@@ -234,6 +235,30 @@ export class Client {
         return this.http.request('put', url_, options_).pipe(
             catchError((error) => {
                 return throwError(() => error.error);
+            })
+        );
+    }
+
+    getUserById(userId: number): Observable<GetUserById> {
+        let url_ = `${this.baseUrl}/api/users/${userId}`;
+
+        let options_: any = {
+            observe: 'response',
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                Accept: 'text/json',
+            }),
+        };
+
+        return this.http.request('get', url_, options_).pipe(
+            mergeMap((response: any): Observable<GetUserById> => {
+                let data!: GetUserById;
+
+                if (response.body !== null) {
+                    data = response.body;
+                }
+
+                return of(data);
             })
         );
     }
