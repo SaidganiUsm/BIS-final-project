@@ -2,11 +2,11 @@ import { Component, Input } from '@angular/core';
 import { AppointmentDto } from 'src/app/models/Appointments/appointment-model';
 
 @Component({
-    selector: 'app-calendar',
-    templateUrl: './calendar.component.html',
-    styleUrls: ['./calendar.component.scss'],
+    selector: 'app-staff-calendar',
+    templateUrl: './staff-calendar.component.html',
+    styleUrls: ['./staff-calendar.component.scss'],
 })
-export class CalendarComponent {
+export class StaffCalendarComponent {
     @Input() userAppointments: AppointmentDto[] = [];
 
     getAppointmentsForTimeSlot(hour: number, minute: string): AppointmentDto[] {
@@ -44,7 +44,7 @@ export class CalendarComponent {
         }
     }
 
-    hours: number[] = Array.from({ length: 13 }, (_, i) => i + 10);
+    hours: number[] = Array.from({ length: 13 }, (_, i) => i + 8);
     minutes: string[] = Array.from({ length: 6 }, (_, i) =>
         (i * 10).toString()
     );
