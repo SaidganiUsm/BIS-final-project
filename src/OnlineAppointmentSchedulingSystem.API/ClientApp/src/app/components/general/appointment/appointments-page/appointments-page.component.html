@@ -1,6 +1,17 @@
 <div class="main">
-    <h2>Appointments for {{ date | date : 'mediumDate' }}</h2>
-    <app-calendar [userAppointments]="userAppointments"></app-calendar>
+    <div class="main__header">
+        <h2>Appointments for {{ date | date : 'mediumDate' }}</h2>
+        <button
+            mat-flat-button
+            color="primary"
+            (click)="clickEventOnApproveAll()"
+        >
+            Approve all
+        </button>
+    </div>
+    <app-doctor-calendar
+        [userAppointments]="userAPpointmentsForDoctor"
+    ></app-doctor-calendar>
     <div class="main__date-navigation">
         <button mat-icon-button (click)="changeDate(-1)">
             <mat-icon>chevron_left</mat-icon>

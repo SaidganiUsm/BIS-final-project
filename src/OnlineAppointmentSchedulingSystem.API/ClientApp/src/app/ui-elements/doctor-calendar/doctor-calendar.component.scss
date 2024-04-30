@@ -1,0 +1,32 @@
+.main {
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.appointments-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.appointments-table th,
+.appointments-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    min-width: 30px;
+    max-width: 30px;
+    width: 30px;
+    height: 50px;
+}
+
+.appointments-table th {
+    background-color: #f2f2f2;
+}
+
+.appointments-table td {
+    position: relative;
+}
+
+.appointment-square {
+    color: white;
+}

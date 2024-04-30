@@ -11,33 +11,15 @@
     }
 
     &__top-container img {
+        padding: 10px;
         border-radius: 50%;
         object-fit: cover;
+        background-color: #2b5293;
     }
 
     &__container-left-info {
         display: flex;
         flex-direction: column;
-        gap: 16px;
-    }
-
-    &__rate {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    &__rate-stars {
-        display: flex;
-        align-items: center;
-    }
-
-    &__rate-stars mat-icon {
-        color: #ffc72c;
-    }
-
-    &__rate-lots {
-        display: flex;
         gap: 16px;
     }
 }

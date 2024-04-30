@@ -48,7 +48,7 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Do
 
 			var userAppointment = await _appointmentRepository.GetUnpaginatedListAsync(
 				predicate: a => a.DoctorId == user.Id && a.Date >= startDate && a.Date <= endDate,
-				include: a => a.Include(s => s.AppointmentStatus),
+				include: a => a.Include(s => s.AppointmentStatus).Include(c => c.Client),
 				enableTracking: false,
 				cancellationToken: cancellationToken
 			);

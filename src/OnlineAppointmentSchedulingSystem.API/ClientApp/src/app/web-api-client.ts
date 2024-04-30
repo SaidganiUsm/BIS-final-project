@@ -1,14 +1,19 @@
-import { mergeMap, catchError } from 'rxjs/operators';
+import { mergeMap, catchError, map } from 'rxjs/operators';
 import { Observable, throwError, of } from 'rxjs';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserRole } from './api-authorization/authorize.service';
-import { AppointmentDto } from './models/Appointments/appointment-model';
+import {
+    AppointmentDto,
+    AppointmentDtoForDoctor,
+    CreateAppointmentModel,
+} from './models/Appointments/appointment-model';
 import {
     GetUserById,
     UpdateUserProfileModel,
     UserProfileModel,
 } from './models/User/user-model';
+import { DoctorModel } from './models/Doctor/Doctor';
 
 export const API_BASE_URL = new InjectionToken('API_BASE_URL');
 
@@ -171,9 +176,22 @@ export class Client {
 
     getUserAppointments(date?: Date): Observable<AppointmentDto[]> {
         const queryDate = date ? date.toISOString() : new Date().toISOString();
-        const url = `${this.baseUrl}/api/Appointments/patient-appointments?date=${queryDate}`;
+        const url = `${this.baseUrl}/api/appointments/patient-appointments?date=${queryDate}`;
 
         return this.http.get<AppointmentDto[]>(url).pipe(
+            catchError((error) => {
+                return throwError(() => error.error);
+            })
+        );
+    }
+
+    getDoctorAppointmentsToConsider(
+        date?: Date
+    ): Observable<AppointmentDtoForDoctor[]> {
+        const queryDate = date ? date.toISOString() : new Date().toISOString();
+        const url = `${this.baseUrl}/api/appointments/doctor-appointments?date=${queryDate}`;
+
+        return this.http.get<AppointmentDtoForDoctor[]>(url).pipe(
             catchError((error) => {
                 return throwError(() => error.error);
             })
@@ -185,7 +203,17 @@ export class Client {
         date?: Date
     ): Observable<AppointmentDto[]> {
         const queryDate = date ? date.toISOString() : new Date().toISOString();
-        const url = `${this.baseUrl}/api/Appointments/appointment-doctor?id=${doctorId}&date=${queryDate}`;
+        const url = `${this.baseUrl}/api/appointments/appointment-doctor?id=${doctorId}&date=${queryDate}`;
+
+        return this.http.get<AppointmentDto[]>(url).pipe(
+            catchError((error) => {
+                return throwError(() => error.error);
+            })
+        );
+    }
+
+    getAllMyAppointments(): Observable<AppointmentDto[]> {
+        const url = `${this.baseUrl}/api/appointments/get-my-appointments`;
 
         return this.http.get<AppointmentDto[]>(url).pipe(
             catchError((error) => {
@@ -262,6 +290,75 @@ export class Client {
             })
         );
     }
+
+    getDoctors(): Observable<DoctorModel[]> {
+        const url = `${this.baseUrl}/api/doctors/doctors`;
+
+        return this.http.get<DoctorModel[]>(url).pipe(
+            catchError((error) => {
+                return throwError(() => error.error);
+            })
+        );
+    }
+
+    createAppointment(
+        appointmentData: CreateAppointmentModel
+    ): Observable<any> {
+        const url = `${this.baseUrl}/api/appointments/Create`;
+
+        let options_: any = {
+            body: appointmentData,
+            responseType: 'text',
+        };
+
+        return this.http.request('post', url, options_).pipe(
+            map((response: any) => {
+                return response;
+            }),
+            catchError((error) => {
+                return throwError(() => error.error);
+            })
+        );
+    }
+
+    considerAppointment(
+        appointmentId: number,
+        appointmentStatus: string
+    ): Observable<any> {
+        const url = `${this.baseUrl}/api/appointments/consider`;
+
+        const body = {
+            id: appointmentId,
+            appointmentStatus: appointmentStatus,
+        };
+
+        return this.http.put<any>(url, body).pipe(
+            catchError((error) => {
+                return throwError(() => error.error);
+            })
+        );
+    }
+
+    considerAllAppointments(date: Date): Observable<any> {
+        const queryDate = date ? date.toISOString() : new Date().toISOString();
+        const url = `${this.baseUrl}/api/appointments/consider-all?date=${queryDate}`;
+
+        return this.http.put<any>(url, {}).pipe(
+            catchError((error) => {
+                return throwError(() => error.error);
+            })
+        );
+    }
+
+    cancelAppointment(id: number): Observable<any> {
+        const url = `${this.baseUrl}/api/appointments/cancel-appointment?id=${id}`;
+
+        return this.http.put<any>(url, {}).pipe(
+            catchError((error) => {
+                return throwError(() => error.error);
+            })
+        );
+    }
 }
 
 export interface TokenModel {
@@ -302,6 +399,8 @@ export interface LoginViewModel {
 
 export interface RegisterViewModel {
     email: string;
+    firstName: string;
+    lastName: string;
     password: string;
     confirmPassword: string;
 }

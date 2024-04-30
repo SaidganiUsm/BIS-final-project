@@ -9,6 +9,8 @@ import { ChoicePopupComponent } from './choice-popup/choice-popup.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { MiniProfileBarComponent } from './mini-profile-bar/mini-profile-bar.component';
 import { StaffCalendarComponent } from './staff-calendar/staff-calendar.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DoctorCalendarComponent } from './doctor-calendar/doctor-calendar.component';
 
 @NgModule({
     declarations: [
@@ -17,6 +19,7 @@ import { StaffCalendarComponent } from './staff-calendar/staff-calendar.componen
         CalendarComponent,
         MiniProfileBarComponent,
         StaffCalendarComponent,
+        DoctorCalendarComponent,
     ],
     imports: [
         CommonModule,
@@ -24,11 +27,13 @@ import { StaffCalendarComponent } from './staff-calendar/staff-calendar.componen
         MatButtonModule,
         RouterModule,
         MatIconModule,
+        MatSnackBarModule,
     ],
     exports: [
         MiniProfileBarComponent,
         CalendarComponent,
         StaffCalendarComponent,
+        DoctorCalendarComponent,
     ],
 })
 export class UiElementsModule {}

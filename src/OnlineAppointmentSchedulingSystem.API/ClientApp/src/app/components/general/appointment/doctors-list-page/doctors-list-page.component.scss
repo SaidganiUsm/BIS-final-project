@@ -1,0 +1,54 @@
+.main {
+    padding-left: 100px;
+    padding-right: 100px;
+
+    &__header {
+        padding-bottom: 20px;
+    }
+
+    &__doctors-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    &__doctor-item {
+        display: flex;
+        height: 148px;
+        justify-content: space-between;
+        border-radius: 16px;
+        border: 1px solid #e0e0e0;
+        display: flex;
+        gap: 40px;
+        align-items: center;
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+
+    &__doctor-item-left {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+
+        p {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 30px;
+            min-width: 100px;
+            border-radius: 8px;
+            background-color: #2b5293;
+            color: white;
+        }
+    }
+
+    &__doctor-item-right {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+}
+
+button {
+    width: 200px;
+}

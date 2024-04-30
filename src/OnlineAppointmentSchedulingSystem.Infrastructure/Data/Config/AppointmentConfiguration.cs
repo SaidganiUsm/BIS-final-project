@@ -27,7 +27,7 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Data.Config
 
 			builder.Property(r => r.Result).HasMaxLength(1000).IsRequired(false);
 
-			builder.Property(d => d.Date).IsRequired(true);
+			builder.Property(l => l.Date).IsRequired(true).HasConversion(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
 		}
 	}
 }

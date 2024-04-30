@@ -220,7 +220,13 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Identity
 					IsSuccess = false,
 				};
 
-			var user = new User { Email = model.Email, UserName = model.Email, };
+			var user = new User
+			{
+				Email = model.Email,
+				UserName = model.Email,
+				FirstName = model.FirstName,
+				LastName = model.LastName,
+			};
 			var result = await _userManager.CreateAsync(user, model.Password);
 
 			if (result.Succeeded)
@@ -241,6 +247,7 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Identity
 					user.Email,
 					"Confirm your email",
 					$"<h1>Welcome to MED-APSUZ</h1>"
+					+ $"<h2>Please save your id: {user.Id}</h2>"
 						+ $"<p>Please confirm your email by</p>"
 						+ $"<p><a href={url}>Clicking Here</a></p>"
 				);

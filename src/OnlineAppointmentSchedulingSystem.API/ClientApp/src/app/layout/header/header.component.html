@@ -8,7 +8,24 @@
     </div>
 
     <ul class="navigation">
-        <ng-container>
+        <ng-container *ngIf="isUserAdmin">
+            <li>
+                <a routerLink="">Manage roles</a>
+            </li>
+            <li>
+                <a routerLink="">Change data</a>
+            </li>
+        </ng-container>
+        <ng-container *ngIf="isUserPatient">
+            <li>
+                <img src="assets/icons/CalendarIcon.svg" alt="Calendar Icon" />
+                <a routerLink="/appointment/doctors">Create Appointment</a>
+            </li>
+            <li>
+                <a routerLink="/patient/dashboard">Dashboard</a>
+            </li>
+        </ng-container>
+        <ng-container *ngIf="isUserDoctor">
             <li>
                 <img src="assets/icons/CalendarIcon.svg" alt="Calendar Icon" />
                 <a routerLink="/appointment/calendar">Calendar</a>

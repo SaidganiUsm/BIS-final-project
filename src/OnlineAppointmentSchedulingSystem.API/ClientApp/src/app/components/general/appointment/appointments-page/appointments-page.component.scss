@@ -1,8 +1,19 @@
 .main {
-    padding: 100px;
+    padding-top: 50px;
+    padding-left: 100px;
+    padding-right: 100px;
     display: flex;
     flex-direction: column;
-    gap: 60px;
+    gap: 50px;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+
+        button {
+            width: 200px;
+        }
+    }
 
     &__date-navigation {
         display: flex;

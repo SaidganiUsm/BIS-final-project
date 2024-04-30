@@ -2,7 +2,7 @@
 
 namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Patient.Queries.GetAllDoctorAppointments
 {
-	public class GetAllDoctorAppointmentsQueryResponse
+	public class GetAllDoctorAppointmentsResponse
 	{
 		public int Id { get; set; }
 

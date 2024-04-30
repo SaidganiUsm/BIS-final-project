@@ -2,6 +2,8 @@
     display: flex;
     flex-direction: column;
     gap: 32px;
+    padding-left: 100px;
+    padding-right: 100px;
 }
 
 .main-container {
@@ -34,6 +36,7 @@
 
     &__photo img {
         border-radius: 50%;
+        background-color: #2b5293;
     }
 
     &__name-date {
@@ -45,6 +48,7 @@
     &__category-info {
         display: flex;
         gap: 16px;
+        align-items: center;
 
         p {
             display: flex;
@@ -52,7 +56,7 @@
             color: white;
             width: 200px;
             justify-content: center;
-            height: 30px;
+            height: 50px;
             align-items: center;
             border-radius: 8px;
         }

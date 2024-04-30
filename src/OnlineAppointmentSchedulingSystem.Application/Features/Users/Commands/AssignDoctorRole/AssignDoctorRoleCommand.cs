@@ -8,7 +8,7 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Users.Commands.
 {
 	public class AssignDoctorRoleCommand : IRequest<AssignDoctorRoleResponse>
 	{
-		public string Email { get; set; }
+		public string Id { get; set; }
 	}
 
 	public class AssignDoctorRoleCommandHandler 
@@ -28,7 +28,7 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Users.Commands.
         public async Task<AssignDoctorRoleResponse> Handle(AssignDoctorRoleCommand request, CancellationToken cancellationToken)
 		{
 			var role = UserRolesEnum.Doctor;
-			var user = await _userManager.FindByEmailAsync(request.Email);
+			var user = await _userManager.FindByIdAsync(request.Id);
 			if (user == null)
 			{
 				throw new ValidationException("User not found!");

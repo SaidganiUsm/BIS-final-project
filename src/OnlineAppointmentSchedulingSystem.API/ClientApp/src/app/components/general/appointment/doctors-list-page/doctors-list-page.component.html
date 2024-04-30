@@ -1,0 +1,34 @@
+<div class="main">
+    <div class="main__header">
+        <h1>Doctors list</h1>
+        <div class="main__search">
+            <!-- Search will be implemented here -->
+        </div>
+    </div>
+
+    <div class="main__doctors-list">
+        <div *ngFor="let doctor of doctors" class="main__doctor-item">
+            <div class="main__doctor-item-left">
+                <h2>{{ doctor.firstName }} {{ doctor.lastName }}</h2>
+                <h3>Category:</h3>
+                <p>{{ doctor.category.categoryName }}</p>
+            </div>
+            <div class="main__doctor-item-right">
+                <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="showProfile(doctor.id)"
+                >
+                    Show profile
+                </button>
+                <button
+                    mat-flat-button
+                    color="primary"
+                    (click)="showDoctorCalendar(doctor.id)"
+                >
+                    Show calendar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

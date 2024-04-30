@@ -6,8 +6,11 @@ using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Comman
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Commands.Update;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Doctor.Commands.AddResult;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Doctor.Commands.Consider;
+using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Doctor.Commands.ConsiderAllAppointments;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Doctor.Queries.GetAllClientAppointments;
+using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Patient.Commands.CancelAppointment;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Patient.Queries.GetAllDoctorAppointments;
+using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Patient.Queries.GetAllUpcomingAppointments;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Patient.Queries.GetAppointmentById;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Patient.Queries.GetUsersAppointments;
 using OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Staff.Commands.Create;
@@ -85,7 +88,7 @@ namespace OnlineAppointmentSchedulingSystem.API.Controllers
 
 		[HttpGet("doctor-appointments")]
 		[Authorize(Roles = "Doctor")]
-		public async Task<IActionResult> GetAllDoctorAppointments([FromBody] DateTime date)
+		public async Task<IActionResult> GetAllDoctorAppointments([FromQuery] DateTime date)
 		{
 			var query = new GetAllClinetAppointmentsQuery()
 			{
@@ -121,12 +124,42 @@ namespace OnlineAppointmentSchedulingSystem.API.Controllers
 
 		[HttpGet("appointment-doctor")]
 		[Authorize(Roles = "Doctor, Staff, Patient")]
-		public async Task<IActionResult> GetDoctorAppointments([FromBody] int id, DateTime date)
+		public async Task<IActionResult> GetDoctorAppointments([FromQuery] int id, DateTime date)
 		{
 			var query = new GetAllDoctorAppointmentsQuery { Id = id, DateTime = date };
 			var appointment = await _mediator.Send(query);
 
 			return Ok(appointment);
+		}
+
+		[HttpPut("consider-all")]
+		[Authorize(Roles = "Doctor")]
+		public async Task<IActionResult> ConsiderAllAppointments([FromQuery] DateTime date)
+		{
+			var command = new ConsiderAllAppointmentsCommand { DateTime = date };
+			var response = await _mediator.Send(command);
+
+			return Ok(response);
+		}
+
+		[HttpGet("get-my-appointments")]
+		[Authorize(Roles = "Patient")]
+		public async Task<IActionResult> GetAllUpcomingAppointments()
+		{
+			var query = new GetUpcomingAppointmentQuery { };
+			var response = await _mediator.Send(query);
+
+			return Ok(response);
+		}
+
+		[HttpPut("cancel-appointment")]
+		[Authorize(Roles = "Patient")]
+		public async Task<IActionResult> CancelAppointment([FromQuery] int id)
+		{
+			var command = new CancelAppointmentCommand { Id = id };
+			var response = await _mediator.Send(command);
+
+			return Ok(response);
 		}
 	}
 }

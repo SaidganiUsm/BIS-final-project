@@ -13,6 +13,7 @@ export class HeaderComponent {
     isUserLoggedIn: boolean = false;
     isUserDoctor: boolean = false;
     isUserPatient: boolean = false;
+    isUserAdmin: boolean = false;
 
     private IsUserDoctor = effect(() => {
         this.isUserDoctor = this.authService.isUserDoctor();
@@ -24,6 +25,10 @@ export class HeaderComponent {
 
     private IsUserLoggedIn = effect(() => {
         this.isUserLoggedIn = this.authService.isUserLoggedIn();
+    });
+
+    private IsUserAdmin = effect(() => {
+        this.isUserAdmin = this.authService.isUserAdmin();
     });
 
     constructor(
