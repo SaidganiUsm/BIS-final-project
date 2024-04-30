@@ -7,6 +7,7 @@ import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
 import { DialogPopupComponent } from 'src/app/ui-elements/dialog-popup/dialog-popup.component';
 import { RegisterResponse } from 'src/app/web-api-client';
 import { AuthorizeService } from '../authorize.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-register',
@@ -31,6 +32,8 @@ export class RegisterComponent {
             Validators.required,
             Validators.email,
         ]),
+        firstName: new FormControl('', [Validators.required]),
+        lastName: new FormControl('', [Validators.required]),
         password: new FormControl('', [Validators.required]),
         confirmPassword: new FormControl('', [Validators.required]),
     });
@@ -49,6 +52,8 @@ export class RegisterComponent {
         this.authService
             .register(
                 this.registerForm.controls.email.value!,
+                this.registerForm.controls.firstName.value!,
+                this.registerForm.controls.lastName.value!,
                 this.registerForm.controls.password.value!,
                 this.registerForm.controls.confirmPassword.value!
             )
@@ -58,13 +63,22 @@ export class RegisterComponent {
                         `auth/email-sent/${this.registerForm.value.email}`,
                     ]);
                 },
-                error: (error: RegisterResponse) => {
-                    this.openDialog(
-                        error.errors! || [
-                            'Something went wrong, please try later',
-                        ],
-                        true
-                    );
+                error: (response: HttpErrorResponse) => {
+                    if (response.error.errors.Password) {
+                        this.openDialog([response.error.errors.Password], true);
+                    } else if (response.error.errors.ConfirmPassword) {
+                        this.openDialog(
+                            response.error.errors.ConfirmPassword,
+                            true
+                        );
+                    } else if (response.error.errors.Email) {
+                        this.openDialog([response.error.errors.Email], true);
+                    } else {
+                        this.openDialog(
+                            ['Something went wrong please try again later'],
+                            true
+                        );
+                    }
                 },
             });
     }

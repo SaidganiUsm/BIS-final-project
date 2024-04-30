@@ -16,6 +16,7 @@
                         [ngStyle]="{
                             'background-color': getColorForStatus(hour, minute)
                         }"
+                        (click)="handleTimeSlotClick(hour, minute)"
                     >
                         <div
                             class="appointment-square"
@@ -26,8 +27,6 @@
                                 )
                             "
                         >
-                            {{ appointment.doctor.firstName }}
-                            {{ appointment.doctor.lastName }} <br />
                             {{ appointment.appointmentStatus.name }}
                         </div>
                     </td>

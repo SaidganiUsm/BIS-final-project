@@ -26,6 +26,15 @@ const routes: Routes = [
             ),
         data: { breadcrumb: { skip: true } },
     },
+    {
+        path: 'patient',
+        loadChildren: () =>
+            import('./components/patient/patient.module').then(
+                (m) => m.PatientModule
+            ),
+        data: { breadcrumb: { skip: true } },
+        canActivate: [isPatientGuard],
+    },
 ];
 
 @NgModule({

@@ -1,9 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { AppointmentDto } from 'src/app/models/Appointments/appointment-model';
+import { Component, Inject, LOCALE_ID, OnInit, effect } from '@angular/core';
+import {
+    AppointmentDto,
+    AppointmentDtoForDoctor,
+} from 'src/app/models/Appointments/appointment-model';
 import { Client } from 'src/app/web-api-client';
 
 import { DialogPopupComponent } from 'src/app/ui-elements/dialog-popup/dialog-popup.component';
 import { Dialog } from '@angular/cdk/dialog';
+import { AuthorizeService } from 'src/app/api-authorization/authorize.service';
+import { ChoicePopupComponent } from 'src/app/ui-elements/choice-popup/choice-popup.component';
+import { formatDate } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-appointments-page',
@@ -11,22 +18,98 @@ import { Dialog } from '@angular/cdk/dialog';
     styleUrls: ['./appointments-page.component.scss'],
 })
 export class AppointmentsPageComponent implements OnInit {
-    userAppointments: AppointmentDto[] = [];
-
+    userAPpointmentsForDoctor: AppointmentDtoForDoctor[] = [];
     date = new Date();
 
-    constructor(private client: Client, public dialog: Dialog) {
-        this.date = new Date();
+    isUserDoctor: boolean = false;
+    isUserPatient: boolean = false;
+
+    errorMessage!: string;
+
+    constructor(
+        private client: Client,
+        public dialog: Dialog,
+        private authService: AuthorizeService,
+        @Inject(LOCALE_ID) public locale: string,
+        private snackBar: MatSnackBar
+    ) {
+        this.date = new Date(
+            Date.UTC(
+                new Date().getFullYear(),
+                new Date().getMonth(),
+                new Date().getDate(),
+                new Date().getHours(),
+                new Date().getMinutes(),
+                new Date().getSeconds(),
+                new Date().getMilliseconds()
+            )
+        );
     }
 
     ngOnInit() {
         this.fetchUserAppointments();
     }
 
-    hours: number[] = Array.from({ length: 13 }, (_, i) => i + 8);
-    minutes: string[] = Array.from({ length: 6 }, (_, i) =>
-        (i * 10).toString()
-    );
+    clickEventOnApproveAll() {
+        const dialogRef = this.dialog.open(ChoicePopupComponent, {
+            data: {
+                text: [
+                    `Are you sure to create an appointment for ${this.formatDate(
+                        this.date
+                    )}?`,
+                ],
+                continueBtnText: 'Approve',
+                breakBtnText: 'Cancel',
+                continueBtnColor: 'primary',
+                breakBtnColor: 'warn',
+                breakBtnFocus: 'break',
+            },
+            autoFocus: false,
+        });
+        dialogRef.closed.subscribe((result) => {
+            if (result === 'true') {
+                this.handleApproveAll(this.date);
+            }
+        });
+    }
+
+    showSnackBar(message: string, messageType: 'success' | 'error') {
+        let panelClass = ['custom-snackbar'];
+        if (messageType === 'success') {
+            panelClass.push('success-snackbar');
+        } else if (messageType === 'error') {
+            panelClass.push('error-snackbar');
+        }
+
+        this.snackBar.open(message, 'Close', {
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+            panelClass: panelClass,
+        });
+    }
+
+    handleApproveAll(date: Date) {
+        this.client.considerAllAppointments(date).subscribe({
+            next: () => {
+                this.showSnackBar(
+                    'Appointment submitted successfully',
+                    'success'
+                );
+            },
+            error: (error) => {
+                if (JSON.parse(error) && JSON.parse(error)?.errors?.length) {
+                    this.errorMessage =
+                        JSON.parse(error)?.errors[0]?.ErrorMessage;
+                    this.showSnackBar(this.errorMessage, 'error');
+                }
+            },
+        });
+    }
+
+    formatDate(date: Date | null): string {
+        return date ? formatDate(date, 'dd LLLL, HH:mm (z)', this.locale) : '';
+    }
 
     openDialog(text: string[], error: boolean) {
         const dialogRef = this.dialog.open<string>(DialogPopupComponent, {
@@ -40,9 +123,9 @@ export class AppointmentsPageComponent implements OnInit {
     }
 
     fetchUserAppointments() {
-        this.client.getUserAppointments(this.date).subscribe({
+        this.client.getDoctorAppointmentsToConsider(this.date).subscribe({
             next: (appointments) => {
-                this.userAppointments = appointments;
+                this.userAPpointmentsForDoctor = appointments;
             },
             error: (error) => {
                 this.openDialog(
@@ -55,14 +138,14 @@ export class AppointmentsPageComponent implements OnInit {
         });
     }
 
-    getAppointmentsForTimeSlot(hour: number, minute: string): AppointmentDto[] {
-        return this.userAppointments.filter((appointment) => {
-            // Extract hour and minute from appointment time
+    getAppointmentsForTimeSlot(
+        hour: number,
+        minute: string
+    ): AppointmentDtoForDoctor[] {
+        return this.userAPpointmentsForDoctor.filter((appointment) => {
             const appointmentTime = new Date(appointment.date);
             const appointmentHour = appointmentTime.getHours();
             const appointmentMinute = appointmentTime.getMinutes();
-
-            // Check if appointment hour and minute match the provided hour and minute
             return (
                 appointmentHour === hour &&
                 Math.floor(appointmentMinute / 10) * 10 === parseInt(minute)
@@ -99,4 +182,12 @@ export class AppointmentsPageComponent implements OnInit {
         this.date = newDate;
         this.fetchUserAppointments();
     }
+
+    private IsUserDoctor = effect(() => {
+        this.isUserDoctor = this.authService.isUserDoctor();
+    });
+
+    private IsUserPatient = effect(() => {
+        this.isUserPatient = this.authService.isUserPatient();
+    });
 }

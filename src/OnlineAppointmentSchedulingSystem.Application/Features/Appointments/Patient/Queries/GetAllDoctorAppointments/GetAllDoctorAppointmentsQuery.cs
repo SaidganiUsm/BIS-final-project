@@ -6,7 +6,7 @@ using OnlineAppointmentSchedulingSystem.Core.Enums;
 
 namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Patient.Queries.GetAllDoctorAppointments
 {
-	public class GetAllDoctorAppointmentsQuery : IRequest<List<GetAllDoctorAppointmentsQueryResponse>>
+	public class GetAllDoctorAppointmentsQuery : IRequest<List<GetAllDoctorAppointmentsResponse>>
 	{
 		public int Id { get; set; }
 
@@ -14,7 +14,7 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Pa
 	}
 
 	public class GetAllDoctorAppointmentsQueryHandler 
-		: IRequestHandler<GetAllDoctorAppointmentsQuery, List<GetAllDoctorAppointmentsQueryResponse>>
+		: IRequestHandler<GetAllDoctorAppointmentsQuery, List<GetAllDoctorAppointmentsResponse>>
 	{
 		private readonly IAppointmentRepository _appointmentRepository;
 		private readonly IMapper _mapper;
@@ -28,29 +28,31 @@ namespace OnlineAppointmentSchedulingSystem.Application.Features.Appointments.Pa
 			_mapper = mapper;
 		}
 
-        public async Task<List<GetAllDoctorAppointmentsQueryResponse>> Handle(GetAllDoctorAppointmentsQuery request, CancellationToken cancellationToken)
+        public async Task<List<GetAllDoctorAppointmentsResponse>> Handle(GetAllDoctorAppointmentsQuery request, CancellationToken cancellationToken)
 		{
 			DateTime queryDate = request.DateTime ?? DateTime.Today;
 			var startDate = queryDate.Date; 
 			var endDate = startDate.AddDays(1).AddTicks(-1);
 
-			var approved = AppointmentStatusEnum.Approved.ToString();
-			var pendingApproval = AppointmentStatusEnum.PendingApproval.ToString();
+			var approved = AppointmentStatusEnum.Approved;
+			var pendingApproval = AppointmentStatusEnum.PendingApproval;
+			var done = AppointmentStatusEnum.Done;
 
 
 			var userAppointments = await _appointmentRepository.GetUnpaginatedListAsync(
 				predicate: a => a.DoctorId == request.Id 
 					&& a.Date >= startDate 
 					&& a.Date <= endDate
-					&& a.AppointmentStatus!.Name == approved
-					&& a.AppointmentStatus.Name == pendingApproval,
+					&& (a.AppointmentStatus!.Name == approved.ToString()
+						|| a.AppointmentStatus!.Name == pendingApproval.ToString()
+						|| a.AppointmentStatus!.Name == done.ToString()),
 				include: a => a.Include(d => d.Doctor)
 							.Include(s => s.AppointmentStatus!),
 				enableTracking: false,
 				cancellationToken: cancellationToken
 			);
 
-			var response = _mapper.Map<List<GetAllDoctorAppointmentsQueryResponse>>(userAppointments);
+			var response = _mapper.Map<List<GetAllDoctorAppointmentsResponse>>(userAppointments);
 
 			return response;
 		}

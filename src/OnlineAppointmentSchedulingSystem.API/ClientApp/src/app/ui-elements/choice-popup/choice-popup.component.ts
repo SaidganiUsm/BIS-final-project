@@ -31,7 +31,7 @@ export class ChoicePopupComponent {
         this.messages = data.text;
         this.iconPath = data.isError
             ? '../../../assets/icons/alert-hexagon.svg'
-            : '../../../assets/icons/success.svg';
+            : '../../../assets/icons/alert-hexagon.svg';
 
         this.continueBtnText = data.continueBtnText;
         this.breakBtnText = data.breakBtnText;

@@ -1,0 +1,34 @@
+.main {
+    padding-top: 50px;
+    padding-left: 100px;
+    padding-right: 100px;
+
+    &__section {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    &__appointment-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 32px;
+        border-radius: 16px;
+        border: 1px solid #e0e0e0;
+        padding: 40px;
+        min-width: 610px;
+        width: 1250px;
+    }
+
+    &__app-left {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    &__app-right {
+        button {
+            width: 200px;
+        }
+    }
+}

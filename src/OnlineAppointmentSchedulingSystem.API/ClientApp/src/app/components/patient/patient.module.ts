@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ViewDoctorsListComponent } from './view-doctors-list/view-doctors-list.component';
-import { CreateAppointmentComponent } from './create-appointment/create-appointment.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { MatButtonModule } from '@angular/material/button';
+import { PatientRoutingModule } from './patient-routing.module';
 
 @NgModule({
-    declarations: [CreateAppointmentComponent, ViewDoctorsListComponent],
-    imports: [CommonModule],
+    declarations: [DashboardComponent],
+    imports: [CommonModule, MatButtonModule, PatientRoutingModule],
 })
 export class PatientModule {}
