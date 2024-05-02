@@ -1,0 +1,63 @@
+<div class="header">
+    <a routerLink="/home">
+        <img src="assets/icons/MED-APSUZ.png" title="MED-APSUZ" />
+    </a>
+
+    <div class="header__search">
+        <app-search [searchPlaceholder]="'Search in website...'"></app-search>
+    </div>
+
+    <ul class="navigation">
+        <ng-container *ngIf="isUserAdmin">
+            <li>
+                <a routerLink="">Manage roles</a>
+            </li>
+            <li>
+                <a routerLink="">Change data</a>
+            </li>
+        </ng-container>
+        <ng-container *ngIf="isUserPatient">
+            <li>
+                <img src="assets/icons/CalendarIcon.svg" alt="Calendar Icon" />
+                <a routerLink="/appointment/doctors">Create Appointment</a>
+            </li>
+            <li>
+                <a routerLink="/patient/dashboard">Dashboard</a>
+            </li>
+        </ng-container>
+        <ng-container *ngIf="isUserDoctor">
+            <li>
+                <img src="assets/icons/CalendarIcon.svg" alt="Calendar Icon" />
+                <a routerLink="/appointment/calendar">Calendar</a>
+            </li>
+        </ng-container>
+        <ng-container *ngIf="isUserLoggedIn">
+            <li>
+                <img src="assets/icons/ProfileIcon.svg" alt="Profile Icon" />
+                <a routerLink="/profile">My Profile</a>
+            </li>
+            <li class="logout__btn">
+                <button
+                    type="button"
+                    (click)="logout()"
+                    mat-flat-button
+                    color="white"
+                >
+                    <div class="logout__btn-content">
+                        <img
+                            src="assets/icons/LogoutIcon.svg"
+                            alt="Logout Icon"
+                        />
+                        Logout
+                    </div>
+                </button>
+            </li>
+        </ng-container>
+        <ng-container *ngIf="!isUserLoggedIn">
+            <li>
+                <img src="assets/icons/ProfileIcon.svg" alt="Profile Icon" />
+                <a routerLink="/auth/login">Login</a>
+            </li>
+        </ng-container>
+    </ul>
+</div>

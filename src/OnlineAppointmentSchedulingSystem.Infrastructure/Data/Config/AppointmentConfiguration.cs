@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OnlineAppointmentSchedulingSystem.Core.Entities;
-using System.Security.Cryptography;
 
 namespace OnlineAppointmentSchedulingSystem.Infrastructure.Data.Config
 {
@@ -28,7 +27,7 @@ namespace OnlineAppointmentSchedulingSystem.Infrastructure.Data.Config
 
 			builder.Property(r => r.Result).HasMaxLength(1000).IsRequired(false);
 
-			builder.Property(d => d.Date).IsRequired(true);
+			builder.Property(l => l.Date).IsRequired(true).HasConversion(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
 		}
 	}
 }

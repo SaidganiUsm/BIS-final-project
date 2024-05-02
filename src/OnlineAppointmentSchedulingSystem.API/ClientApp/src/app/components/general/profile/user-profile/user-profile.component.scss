@@ -1,0 +1,111 @@
+.profile {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.main-container {
+    display: flex;
+    gap: 16px;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    border-radius: 16px;
+    border: 1px solid #e0e0e0;
+    padding: 40px;
+    min-width: 610px;
+    width: 1500px;
+
+    &__profile {
+        display: flex;
+        align-items: center;
+        gap: 80px;
+    }
+
+    &__photo {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 4px;
+    }
+
+    &__photo img {
+        border-radius: 50%;
+        background-color: #2b5293;
+    }
+
+    &__name-date {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    &__category-info {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+
+        p {
+            display: flex;
+            background-color: #2b5293;
+            color: white;
+            width: 200px;
+            justify-content: center;
+            height: 50px;
+            align-items: center;
+            border-radius: 8px;
+        }
+    }
+
+    &__about-me {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    &__personal-info {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    &__number-email {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    &__btns {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__btns-edit {
+        display: flex;
+        gap: 16px;
+    }
+
+    &__btns-edit button {
+        border: 2px solid #e0e0e0;
+        background-color: transparent;
+    }
+
+    &__btns-edit button:hover {
+        background-color: #2b5293;
+        color: white;
+        transition: 0.3s ease;
+    }
+
+    &__edit-btn {
+        width: 164px;
+    }
+
+    &__change-password-btn {
+        width: 210px;
+    }
+}

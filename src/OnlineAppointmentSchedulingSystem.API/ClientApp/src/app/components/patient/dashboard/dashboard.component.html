@@ -1,0 +1,21 @@
+<div class="main">
+    <div class="main__section">
+        <div
+            class="main__appointment-item"
+            *ngFor="let appointment of appointments"
+        >
+            <div class="main__app-left">
+                <h1>{{ appointment.date | date : 'mediumDate' }}</h1>
+                <h2>
+                    {{ appointment.doctor.firstName }}
+                    {{ appointment.doctor.lastName }}
+                </h2>
+            </div>
+            <div class="main__app-right">
+                <button mat-flat-button color="primary" (click)="cancelClickEvent(appointment.id)">
+                    Cancel appointment
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

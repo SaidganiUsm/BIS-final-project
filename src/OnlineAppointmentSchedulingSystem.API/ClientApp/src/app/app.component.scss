@@ -1,0 +1,8 @@
+.container {
+    position: relative;
+
+    &__inner {
+        max-width: 1522px;
+        margin: 0 auto;
+    }
+}

@@ -105,7 +105,7 @@ namespace OnlineAppointmentSchedulingSystem.API.Controllers
 
 			var email = _currentUserService.UserEmail;
 
-			var result = await _identityService.ChangeUserPasswordAsync(email, model);
+			var result = await _identityService.ChangeUserPasswordAsync(email!, model);
 
 			if (!result.IsSuccess)
 			{

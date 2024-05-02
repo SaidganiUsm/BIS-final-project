@@ -1,0 +1,17 @@
+<div class="main">
+    <h2>Appointments for {{ date | date : 'mediumDate' }}</h2>
+    <app-calendar
+        [userAppointments]="doctorAppointments"
+        [doctorId]="doctorId"
+        [date]="date"
+    ></app-calendar>
+    <div class="main__date-navigation">
+        <button mat-icon-button (click)="changeDate(-1)">
+            <mat-icon>chevron_left</mat-icon>
+        </button>
+        <span>{{ date | date : 'mediumDate' }}</span>
+        <button mat-icon-button (click)="changeDate(1)">
+            <mat-icon>chevron_right</mat-icon>
+        </button>
+    </div>
+</div>

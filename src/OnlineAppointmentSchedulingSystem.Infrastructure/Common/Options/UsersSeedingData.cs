@@ -14,5 +14,7 @@
 		public string Doctor { get; set; }
 
 		public string Patient { get; set; }
+
+		public string Staff { get; set; }
 	}
 }

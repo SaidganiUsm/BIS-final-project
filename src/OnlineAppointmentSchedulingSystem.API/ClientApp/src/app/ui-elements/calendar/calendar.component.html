@@ -1,0 +1,37 @@
+<table class="appointments-table">
+    <thead>
+        <tr>
+            <th></th>
+            <ng-container *ngFor="let minute of minutes">
+                <th>{{ ':' + minute }}</th>
+            </ng-container>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let hour of hours">
+            <tr>
+                <td>{{ hour }}:00</td>
+                <ng-container *ngFor="let minute of minutes">
+                    <td
+                        [ngStyle]="{
+                            'background-color': getColorForStatus(hour, minute)
+                        }"
+                        (click)="handleTimeSlotClick(hour, minute)"
+                    >
+                        <div
+                            class="appointment-square"
+                            *ngFor="
+                                let appointment of getAppointmentsForTimeSlot(
+                                    hour,
+                                    minute
+                                )
+                            "
+                        >
+                            {{ appointment.appointmentStatus.name }}
+                        </div>
+                    </td>
+                </ng-container>
+            </tr>
+        </ng-container>
+    </tbody>
+</table>

@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore;
 using OnlineAppointmentSchedulingSystem.Core.Common;
 
 namespace OnlineAppointmentSchedulingSystem.Infrastructure.Interceptors
